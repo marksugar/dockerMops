@@ -1,0 +1,12 @@
+version: '2'
+services:
+  keepalived:
+    build:
+      context: https://raw.githubusercontent.com/LinuxEA-Mark/Docker-keepalived/master/Dockerfile
+    container_name: keepalived1.3.2
+    restart: always
+    privileged: true
+    network_mode: host
+    volumes: 
+        - /data/docker/keepliaved/keepalived.conf:/etc/keepalived/keepalived.conf
+#        - /root/check.sh:/root/check.sh
