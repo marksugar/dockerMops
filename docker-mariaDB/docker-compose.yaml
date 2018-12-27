@@ -1,0 +1,16 @@
+version: '2'
+services:
+  mariadb:
+    image: marksugar/mariadb:10.2.15
+    #build:
+    #    context: https://raw.githubusercontent.com/LinuxEA-Mark/Docker-MariaDB/master/Dockerfile
+    container_name: mariadb
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro    
+      - /data/docker/mysql/data:/data/mysql:rw
+      - /data/docker/mysql/my.cnf:/etc/my.cnf
+      - /data/logs/mysql:/data/log:rw
+    ports:
+      - "3306"

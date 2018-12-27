@@ -1,0 +1,11 @@
+version: '2'
+services:
+  svb1.9.4:
+    build:
+        context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-subversion1.9.4/master/Dockerfile
+    container_name: svn
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro    
+      - /data/docker/subversion:/data/docker/svn/

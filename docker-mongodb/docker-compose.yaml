@@ -1,0 +1,11 @@
+version: '2'
+services:
+  mongodb:
+    build:
+        context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-mongodb/master/Dockerfile
+    container_name: mongodb-3.4.2
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /data/docker/mongodb/:/data/mongodb/
+      - /data/docker/mongodb/mongodb.conf:/etc/mongodb.conf

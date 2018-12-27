@@ -1,0 +1,74 @@
+[maxscale]
+threads=auto
+ms_timestamp=1
+syslog=0
+maxlog=1
+log_to_shm=0
+log_warning=1
+log_notice=0
+log_info=0
+log_debug=0
+log_augmentation=1
+logdir=/data/maxscale/logs/trace/
+datadir=/data/maxscale/data/
+libdir=/usr/local/maxscale/lib/maxscale/
+cachedir=/data/maxscale/cache/
+piddir=/data/maxscale/pid/
+execdir=/usr/bin/
+
+[server1]
+type=server
+address=10.10.240.113
+port=3306
+protocol=MySQLBackend
+serv_weight=3
+priority=1
+
+[server2]
+type=server
+address=10.0.1.49
+port=3306
+protocol=MySQLBackend
+serv_weight=3
+priority=2
+
+
+[Galera Monitor]
+type=monitor
+module=galeramon
+servers=server1,server2
+user=maxscale
+passwd=password
+#passwd=68E3FA48578E7CD4C043155EA4EE91BD
+monitor_interval=10000
+#detect_stale_master=true
+
+
+[Read-Write Service]
+type=service
+router=readwritesplit
+servers=server1,server2
+user=maxscale
+passwd=password
+#passwd=68E3FA48578E7CD4C043155EA4EE91BD
+max_slave_connections=100%
+use_sql_variables_in=master
+enable_root_user=1
+weightby=serv_weight
+
+[MaxAdmin Service]
+type=service
+router=cli
+[Read-Write Listener]
+type=listener
+service=Read-Write Service
+protocol=MySQLClient
+port=4006
+address = 0.0.0.0
+
+[MaxAdmin Listener]
+type=listener
+service=MaxAdmin Service
+protocol=maxscaled
+port=6603
+address = 0.0.0.0

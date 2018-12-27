@@ -1,0 +1,11 @@
+version: '2'
+services:
+  tomcat8.5.9:
+    build:
+      context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-tomcat/master/8.5.9/Dockerfile
+    container_name: tomcat
+    restart: always
+    network_mode: "host"
+    volumes:
+     - /data/docker/tomcat/webapps/:/data/docker/tomcat/webapps/
+     - /data/docker/tomcat/conf:/data/docker/tomcat/conf

@@ -1,0 +1,19 @@
+version: '2'
+services:
+  redis:
+    image: marksugar/redis:5.0.0
+    container_name: redis
+    restart: always
+    network_mode: "host"
+    privileged: true
+    environment:
+    - REDIS_CONF=on
+    - REQUIRE_PASS=OTdmOWI4ZTM4NTY1M2M4OTZh
+    - MASTER_AUTH=OTdmOWI4ZTM4NTY1M2M4OTZh
+    - MAXCLIENTS_NUM=600
+    - MAXMEMORY_SIZE=4096
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+#    - /etc/redis:/etc/redis
+    - /data/redis-data:/data/redis:Z
+    - /data/logs:/data/logs

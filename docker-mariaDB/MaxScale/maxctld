@@ -1,0 +1,179 @@
+#!/bin/bash
+# www.linuxea.com
+# Script to start and stop MaxScale.
+#
+
+# Set default variables
+NOWAIT=0
+HELP=0
+QUIET=0
+MAXSCALE_PID=0
+MAXSCALE_PIDFILE=/mydata/maxscale/pid/maxscale.pid
+MAXSCALE_HOME=/usr/local/maxscale/usr
+MAXSCALE_CNF=/etc/maxscale.cnf
+# Get pid of MaxScale if it is running.
+# Check that the pidfile exists.
+if [ -e $MAXSCALE_PIDFILE ]; then
+   MAXSCALE_PID=`cat $MAXSCALE_PIDFILE`
+# Check if the process is running.
+   if [ `ps --no-heading -p $MAXSCALE_PID | wc -l` -eq 0 ]; then
+      MAXSCALE_PID=0
+   fi
+fi
+
+
+# Function to print output
+printmax() {
+   if [ $QUIET -eq 0 ]; then
+      echo $* >&2
+   fi
+}
+
+# Function to print help
+helpmax() {
+    echo "Usage: $0 start|stop|status|restart"
+    echo "Options:"
+    echo "-f - MaxScale config file"
+    echo "-h - Show this help"
+    echo "-n - Don't wait for operation to finish before exiting"
+    echo "-q - Quiet operation"
+}
+
+
+# Function to start maxscale
+startmax() {
+# Check if MaxScale is already running.
+   if [ $MAXSCALE_PID -ne 0 ]; then
+      printmax "MaxScale is already running"
+      exit 1
+   fi
+
+# Check that we are running as root if a user to run as is specified.
+   if [ "x$MAXSCALE_USER" != "x" -a `id -u` -ne 0 ]; then
+      printmax "$0 must be run as root"
+      exit 1
+   fi
+
+# Check that we can find maxscale
+   if [ ! -e $MAXSCALE_HOME/bin/maxscale ]; then
+      printmax "Cannot find MaxScale executable ($MAXSCALE_HOME/bin/maxscale)"
+      exit 1
+   fi
+
+# Check that the config file exists, if specified.
+   if [ "x$MAXSCALE_CNF" != "x" -a ! -e "$MAXSCALE_CNF" ]; then
+      printmax "MaxScale configuration file ($MAXSCALE_CNF) not found"
+      exit 1
+   fi
+
+# Start MaxScale
+   if [ "x$MAXSCALE_USER" == "x" ]; then
+      $MAXSCALE_HOME/bin/maxscale -f $MAXSCALE_HOME ${MAXSCALE_CNF:+-f $MAXSCALE_CNF}
+#      $MAXSCALE_HOME/bin/maxscale -c $MAXSCALE_HOME ${MAXSCALE_CNF:+-f $MAXSCALE_CNF}
+   else
+      su $MAXSCALE_USER -m -c "$MAXSCALE_HOME/bin/maxscale -c $MAXSCALE_HOME ${MAXSCALE_CNF:+-f $MAXSCALE_CNF}"
+   fi
+}
+
+
+# Function to stop maxscale
+stopmax() {
+   NOWAIT=1
+   if [ "x$1" == "-n" ]; then
+      NOWAIT=0
+   fi
+
+# Check that we are running as root if a user to run as is specified.
+   if [ "x$MAXSCALE_USER" != "x" -a `id -u` -ne 0 ]; then
+      printmax "$0 must be run as root"
+      exit 1
+   fi
+
+# Check that the pidfile exists.
+   if [ ! -e $MAXSCALE_PIDFILE ]; then
+      printmax "Can't find MaxScale pidfile ($MAXSCALE_PIDFILE)"
+      exit 1
+   fi
+   MAXSCALE_PID=`cat $MAXSCALE_PIDFILE`
+
+# Kill MaxScale
+   kill $MAXSCALE_PID
+
+   if [ $NOWAIT -ne 0 ]; then
+# Wait for maxscale to die.
+      while [ `ps --no-heading -p $MAXSCALE_PID | wc -l` -ne 0 ]; do
+      usleep 100000
+      done
+      MAXSCALE_PID=0
+   fi
+}
+
+
+# Function to show the status of MaxScale
+statusmax() {
+# Check that the pidfile exists.
+   if [ $MAXSCALE_PID -ne 0 ]; then
+      printmax "MaxScale is running (pid: $MAXSCALE_PID user: `ps -p $MAXSCALE_PID --no-heading -o euser`)"
+      exit 0
+   fi
+   printmax "MaxScale is not running"
+   exit 1
+}
+
+# Process options.
+while getopts ":f:hnq" OPT; do
+   case $OPT in
+      f)
+         MAXSCALE_CNF=$OPTARG
+         ;;
+      h)
+         helpmax
+         exit 0
+         ;;
+      n)
+         NOWAIT=1
+         ;;
+      q)
+         QUIET=1
+         ;;
+      \?)
+         echo "Invalid option: -$OPTARG"
+         ;;
+   esac
+done
+
+# Process arguments following options.
+shift $((OPTIND - 1))
+OPER=$1
+
+# Check that an operation was passed
+if [ "x$1" == "x" ]; then
+   echo "$0: your must enter an operation: start|stop|restart|status" >&2
+   exit 1
+fi
+
+
+# Handle the operations.
+case $OPER in
+   start)
+      startmax
+      ;;
+   stop)
+      stopmax
+      ;;
+   status)
+      statusmax
+      ;;
+   restart)
+      if [ $MAXSCALE_PID -ne 0 ]; then
+         NOWAITSAVE=$NOWAIT
+         NOWAIT=0
+         stopmax
+         NOWAIT=$NOWAITSAVE
+      fi
+      startmax
+      ;;
+   *)
+      echo "Unknown operation: $OPER. Use start|stop|restart|status"
+      exit 1
+esac

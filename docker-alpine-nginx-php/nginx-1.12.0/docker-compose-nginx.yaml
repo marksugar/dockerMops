@@ -1,0 +1,18 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-alpine-nginx-php/master/nginx-1.12.0/Dockerfile
+    container_name: nginx
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/nginx:/etc/nginx/
+      - /data/logs:/data/logs/nginx
+      - /data/wwwroot:/data/wwwroot
+    environment:
+      - NGINX_PORT=81
+      - SERVER_NAME=www.linuxea.net
+      - PHP_FPM_SERVER=127.0.0.1:900
+    ports:
+      - "80"

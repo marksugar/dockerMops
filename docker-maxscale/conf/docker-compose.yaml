@@ -1,0 +1,12 @@
+version: '2'
+services:
+  maxscale:
+    image: marksugar/maxscale:2.1.9
+    container_name: maxscale
+    restart: always
+    network_mode: "host"
+    volumes: 
+    - /etc/localtime:/etc/localtime:ro    
+    - /data/maxscale:/data/maxscale
+    ports:
+    - "4006"

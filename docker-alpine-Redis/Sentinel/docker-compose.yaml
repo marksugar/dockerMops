@@ -1,0 +1,16 @@
+version: '2'
+services:
+  redis:
+    build:
+      context:  https://raw.githubusercontent.com/LinuxEA-Mark/docker-alpine-Redis/master/Sentinel/Dockerfile
+    container_name: redis
+    restart: always
+    network_mode: "host"
+    privileged: true
+    environment:
+    - REQUIREPASSWD=OTdmOWI4ZTM4NTY1M2M4OTZh
+    - MASTERAUTHPAD=OTdmOWI4ZTM4NTY1M2M4OTZh
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /data/redis-data:/data/redis:Z
+    - /data/logs:/data/logs

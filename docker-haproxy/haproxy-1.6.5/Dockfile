@@ -1,0 +1,18 @@
+
+FROM centos
+MAINTAINER wwww.linuxea.com for mark
+RUN yum install gcc make -y \
+        && yum clean all \
+        && curl -sO http://www.haproxy.org/download/1.6/src/haproxy-1.6.5.tar.gz \
+        && tar xf haproxy-1.6.5.tar.gz -C /usr/local/ \
+        && rm -rf haproxy-1.6.5.tar.gz \
+        && cd /usr/local/haproxy-1.6.5 \
+        && make TARGET=linux31 PREFIX=/usr/local/haproxy \
+        && make install PREFIX=/usr/local/haproxy \
+        && groupadd -r -g 149 haproxy \
+        && useradd -g haproxy -r -s /sbin/nologin -u 149 haproxy \
+        && echo "net.ipv4.ip_nonlocal_bind 1" >> /etc/sysctl.conf \
+        && yum remove make -y\
+        && yum clean all
+EXPOSE 80/tcp 1080/tcp
+ENTRYPOINT /usr/local/haproxy/sbin/haproxy -f /etc/haproxy/haproxy.cfg -db

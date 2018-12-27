@@ -1,0 +1,245 @@
+10.10.240.114   slave
+10.10.240.113   Master
+10.10.240.117   MaxScale
+快速部署mariadb(需要安装docker):
+`curl -LKs https://raw.githubusercontent.com/LinuxEA-Mark/docker-mariaDB/master/docker-mysql-create.sh|bash`
+主从：
+master配置:
+```
+MariaDB [(none)]> grant replication slave on *.* to 'mybk'@'10.10.240.114' identified by 'password';
+MariaDB [(none)]> flush privileges;
+MariaDB [(none)]> select version();
++-----------------+
+| version()       |
++-----------------+
+| 10.1.19-MariaDB |
++-----------------+
+1 row in set (0.00 sec)
+```
+```
+MariaDB [(none)]> show master status;
++-------------------+----------+--------------+------------------+
+| File              | Position | Binlog_Do_DB | Binlog_Ignore_DB |
++-------------------+----------+--------------+------------------+
+| master-bin.000001 |      620 |              |                  |
++-------------------+----------+--------------+------------------+
+```
+在主从分别允许两台机器能互通
+```
+iptables -I INPUT 4 -s 10.10.240.114 -p tcp --dport 3306 -j ACCEPT
+iptables -I INPUT 4 -s 10.10.240.113 -p tcp --dport 3306 -j ACCEPT
+```
+在主从都需要放行117
+```
+iptables -I INPUT 4 -s 10.10.240.117 -p tcp --dport 3306 -j ACCEPT
+```
+slave配置:
+```
+MariaDB [(none)]> change master to master_host='10.10.240.113',master_user='mybk',master_password='password',master_log_file='master-bin.000001',master_log_pos=924;
+MariaDB [(none)]> start slave;                                                                    
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [(none)]> show slave status\G
+*************************** 1. row ***************************
+               Slave_IO_State: Waiting for master to send event
+                  Master_Host: 10.10.240.113
+                  Master_User: mybk
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: master-bin.000001
+          Read_Master_Log_Pos: 1231
+               Relay_Log_File: DS-VM-Node114-relay-bin.000002
+                Relay_Log_Pos: 538
+        Relay_Master_Log_File: master-bin.000001
+             Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+              Replicate_Do_DB: 
+```
+```
+MariaDB [(none)]> SELECT VERSION();                                                                           
++-----------------+
+| VERSION()       |
++-----------------+
+| 10.1.19-MariaDB |
++-----------------+
+1 row in set (0.00 sec)
+MariaDB [(none)]> SHOW SLAVE HOSTS;
++-----------+------+------+-----------+
+| Server_id | Host | Port | Master_id |
++-----------+------+------+-----------+
+|        20 |      | 3306 |         1 |
++-----------+------+------+-----------+
+1 row in set (0.00 sec)
+
+MariaDB [(none)]> 		
+```
+MaxScale配置：
+```
+wget https://downloads.mariadb.com/MaxScale/1.4.5/centos/7Server/x86_64/maxscale-1.4.5-1.centos.7.x86_64.rpm
+yum install -y maxscale-1.4.5-1.centos.7.x86_64.rpm
+```
+在主库上执行：
+```
+GRANT SELECT  ON *.* TO 'mybk'@'10.10.240.117' identified by 'password';  
+GRANT SHOW DATABASES ON *.* TO mybk@'10.10.240.117';
+grant REPLICATION SLAVE on *.* to mybk@'10.10.240.117';
+grant REPLICATION CLIENT on *.* to mybk@'10.10.240.117';
+```
+创建目录
+```
+groupadd maxscale
+useradd -g maxscale maxscale
+mkdir -p /mydata/maxscale/{data,cache,logs,tmp,pid}
+mkdir -p /mydata/maxscale/logs/{binlog,trace}
+chown -R maxscale:maxscale /mydata/maxscale
+/usr/local/maxscale/usr/bin/maxkeys /mydata/maxscale/data/
+/usr/local/maxscale/bin/maxpasswd /mydata/maxscale/data/.secrets password
+D53C7669B34FF2AE96DB6E21C98A6A54
+```
+MaxScale配置文件：
+```
+[maxscale]
+threads=auto
+ms_timestamp=1
+syslog=1
+maxlog=1
+log_to_shm=0
+log_warning=1
+log_notice=1
+log_info=1
+log_debug=0
+log_augmentation=1
+#相关目录设置
+logdir=/mydata/maxscale/logs/trace/
+datadir=/mydata/maxscale/data/
+libdir=/usr/lib64/maxscale/
+cachedir=/mydata/maxscale/cache/
+piddir=/mydata/maxscale/pid/
+execdir=/usr/bin/
+
+[server1]
+type=server
+address=10.10.240.113
+port=3306
+protocol=MySQLBackend
+serv_weight=3
+[server2]
+type=server
+address=10.10.240.114
+port=3306
+protocol=MySQLBackend
+erv_weight=3
+
+[MySQL Monitor]
+type=monitor
+module=mysqlmon
+servers=server1,server2
+user=mybk
+passwd=D53C7669B34FF2AE96DB6E21C98A6A54
+# 监控心态为 10s
+monitor_interval=10000
+# 当复制slave全部断掉时，maxscale仍然可用，将所有的访问指向master节点
+detect_stale_master=true
+# 监控主从复制延迟，可用后续指定router service的(配置此参数请求会永远落在 master)
+# detect_replication_lag=true
+
+[Read-Only Service]
+type=service
+router=readconnroute
+servers=server1,server2
+user=mybk
+passwd=D53C7669B34FF2AE96DB6E21C98A6A54
+router_options=slave
+enable_root_user=1
+
+[Read-Write Service]
+type=service
+router=readwritesplit
+servers=server1,server2
+user=mybk
+passwd=D53C7669B34FF2AE96DB6E21C98A6A54
+max_slave_connections=100%
+# sql语句中的存在变量只指向master中执行
+use_sql_variables_in=master
+# 允许root用户登录执行
+enable_root_user=1
+# 允许主从最大间隔(s)
+max_slave_replication_lag=3600
+
+#maxscale管理节点信息
+[MaxAdmin Service]
+type=service
+router=cli
+#各个请求的端口信息
+[Read-Only Listener]
+type=listener
+service=Read-Only Service
+protocol=MySQLClient
+port=4008
+[Read-Write Listener]
+type=listener
+service=Read-Write Service
+protocol=MySQLClient
+port=4006
+[MaxAdmin Listener]
+type=listener
+service=MaxAdmin Service
+protocol=maxscaled
+#socket=/mydata/maxscale/tmp/maxadmin.sock
+port=6603
+```
+start:
+```
+[root@DS-VM-LinuxEA /mydata/maxscale/logs/trace]# maxscale -f /etc/maxscale.cn
+[root@DS-VM-LinuxEA /mydata/maxscale/logs/trace]# maxadmin --user=admin --password=mariadb --host=10.10.240.117
+MaxScale> list servers
+Servers.
+-------------------+-----------------+-------+-------------+--------------------
+Server             | Address         | Port  | Connections | Status              
+-------------------+-----------------+-------+-------------+--------------------
+server1            | 10.10.240.113   |  3306 |           0 | Master, Running
+server2            | 10.10.240.114   |  3306 |           0 | Slave, Running
+-------------------+-----------------+-------+-------------+--------------------
+MaxScale> list services
+Services.
+--------------------------+----------------------+--------+---------------
+Service Name              | Router Module        | #Users | Total Sessions
+--------------------------+----------------------+--------+---------------
+Read-Only Service         | readconnroute        |      1 |     1
+Read-Write Service        | readwritesplit       |      1 |     1
+MaxAdmin Service          | cli                  |      2 |     4
+--------------------------+----------------------+--------+---------------
+
+MaxScale> 
+```
+测试登陆：
+```
+mysql -umybk -ppassword -h10.10.240.117 -P4006
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14685
+Server version: 10.0.0 1.4.5-maxscale MariaDB Server
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [(none)]> show grants for 'mybk'@'10.10.240.117';
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for mybk@10.10.240.117                                                                                                                                           |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT SELECT, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'mybk'@'10.10.240.117' IDENTIFIED BY PASSWORD '*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19' |
+| GRANT SELECT ON `mysql`.`db` TO 'mybk'@'10.10.240.117'                                                                                                                  |
+| GRANT SELECT ON `mysql`.`user` TO 'mybk'@'10.10.240.117'                                                                                                                |
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+3 rows in set (0.00 sec)
+```
+
+读写测试：
+主库授权linuxea账户：
+```
+GRANT ALL PRIVILEGES ON *.*  TO 'linuxea'@'10.10.240.117' IDENTIFIED BY 'password';
+```
+maxscale登陆：
+```
+mysql -ulinuxea -ppassword -h10.10.240.117 -P4006
+```

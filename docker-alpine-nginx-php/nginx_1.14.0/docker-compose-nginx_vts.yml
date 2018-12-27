@@ -1,0 +1,19 @@
+version: '3'
+services:
+  nginx_vts:
+    image: marksugar/nginx:v1.14.0-vts
+#    build: .
+#      context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-alpine-nginx-php/master/nginx_1.14.0/Dockerfile
+    container_name: nginx
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/nginx:/etc/nginx/
+      - /data/:/data/
+    environment:
+      - NGINXCONF=on
+      - NGINX_PORT=80
+      - SERVER_NAME=www.linuxea.net
+      - PHP_FPM_SERVER=127.0.0.1:9000
+    ports:
+      - "80"

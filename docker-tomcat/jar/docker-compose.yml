@@ -1,0 +1,10 @@
+version: '2'
+services:
+  jar-8u111-jre-alpine:
+    image: marksugar/alpine-openjdk-8u111-jre:2
+    container_name: jar
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /data/java/:/data/java
+      - /etc/localtime:/etc/localtime:ro

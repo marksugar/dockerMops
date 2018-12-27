@@ -1,0 +1,11 @@
+version: '2'
+services:
+  ntp:
+    build:
+      context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-ntp/master/Dockerfile
+    container_name: ntp
+    restart: always
+    privileged: true
+    network_mode: "host"
+    volumes: 
+        - /data/docker/ntp:/data

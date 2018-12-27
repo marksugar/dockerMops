@@ -1,0 +1,31 @@
+version: '2'
+services:
+  nginx:
+    build:
+      context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-nginx-php-fpm/master/Dockerfile
+    container_name: nginx
+    restart: always
+    network_mode: "host"
+#    volumes_from:
+#    - php-fpm
+    volumes: 
+    - /data/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    - /data/wwwroot:/data/wwwroot
+    - /data/logs/nginx:/data/logs/nginx 
+    ports:
+    - "80"
+  php-fpm:
+    build:
+      context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-nginx-php-fpm/master/php-fpm/Dockerifle
+    container_name: php-fpm
+    restart: always
+    network_mode: "host"
+#    links:
+#    - mysql:mysql
+    volumes:
+    - /data/docker/php-fpm/php-fpm.conf:/usr/local/php/etc/php-fpm.conf   
+    - /data/docker/php-fpm/php.ini:/usr/local/php/lib/php.ini
+    - /data/logs/php-fpm:/logs
+    - /data/wwwroot:/data/wwwroot
+#    ports:
+#    - "9000"

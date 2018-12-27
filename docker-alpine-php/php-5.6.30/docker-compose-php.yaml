@@ -1,0 +1,49 @@
+version: '2'
+services:
+  php-fpm:
+    build: .
+#      context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-alpine-php/master/php-5.6.30/Dockerfile
+    container_name: php-fpm
+    privileged: true
+    restart: always
+    network_mode: "host"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1G"
+    volumes:
+         - /data/wwwroot:/data/wwwroot
+         - /data/logs:/data/logs
+#        - ./php-fpm.conf:/usr/local/php/etc/php-fpm.conf
+#        - ./php.ini:/usr/local/php/etc/php.ini
+#        - ./php_module.ini:/usr/local/php/etc/php.d/php_module.ini
+#        - ./xdebug.ini:/usr/local/php/etc/php.d/xdebug.ini
+#        - ./pp.conf:/usr/local/php/etc/pp.conf
+#        - ./php.template:/php.template
+    environment:
+        - CHDIR=/data/wwwroot
+        - LISTEN=127.0.0.1:9000
+        - LISTEN_BACKLOG=-1
+        - LISTEN_OWNER=www
+        - LISTEN_GROUP=www
+        - LISTEN_MODE=0777
+        - USER=www
+        - GROUP=www
+        - PM=dynamic
+        - PM_MAX_CHILDREN=6
+        - PM_START_SERVERS=2
+        - PM_MIN_SPARE_SERVERS=2
+        - PM_MAX_SPARE_SERVERS=4
+        - PM_MAX_REQUESTS=65535
+        - PM_PROCESS_IDLE_TIMEOUT=10s
+        - REQUEST_TERMINATE_TIMEOUT=120
+        - REQUEST_SLOWLOG_TIMEOUT=0
+        - DISABLED_REDIS=yes
+        - DISABLED_MEMCACHE=yes
+        - DISABLED_SWOOLE=yes
+        - DISABLED_XDEBUG=yes
+        - ENABLED_REDIS=redis.so
+        - ENABLED_MEMCACHED=memcached.so
+        - ENABLED_XDEBUG=xdebug.so
+        - ENABLED_SWOOLE=swoole.so
+        - MEM_LIMIT=128M

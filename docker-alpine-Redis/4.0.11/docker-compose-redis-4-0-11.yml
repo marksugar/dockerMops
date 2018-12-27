@@ -1,0 +1,21 @@
+version: '2'
+services:
+  redis:
+    image: marksugar/redis:4.0.11
+#    build:
+#      context:  https://raw.githubusercontent.com/LinuxEA-Mark/docker-alpine-Redis/master/4.0.11/Dockerfile
+    container_name: redis
+    restart: always
+    network_mode: "host"
+    privileged: true
+    environment:
+    - REDIS_CONF=on
+    - REQUIREPASSWD=OTdmOWI4ZTM4NTY1M2M4OTZh
+    - MASTERAUTHPAD=OTdmOWI4ZTM4NTY1M2M4OTZh
+    - MAXCLIENTS_NUM=600
+    - MAXMEMORY_SIZE=4096
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /etc/redis:/etc/redis
+    - /data/redis-data:/data/redis:Z
+    - /data/logs:/data/logs

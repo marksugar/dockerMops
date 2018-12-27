@@ -1,0 +1,10 @@
+version: '2'
+services:
+  haproxy:
+    build:
+      context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-haproxy1.6.5/master/Dockfile
+    container_name: haproxy
+    restart: always
+    network_mode: "host"
+    volumes: 
+        - /data/docker/haproxy/haproxy.cfg:/etc/haproxy/haproxy.cfg
