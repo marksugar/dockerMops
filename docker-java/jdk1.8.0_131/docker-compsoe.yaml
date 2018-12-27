@@ -1,0 +1,17 @@
+version: '2'
+services:
+  java8:
+    image: marksugar/java:jdk1.8.0_131
+#    build: .
+#      context:  https://raw.githubusercontent.com/LinuxEA-Mark/java/master/jdk1.8.0_131/Dockerfile
+    container_name: java8
+    restart: always
+    network_mode: "host"
+    privileged: true
+    environment:
+    - JAR_XMX=2048
+    - JAR_XMS=1096
+    volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /data/jdk/symphony:/usr/local/tomcat/webapps/symphony
+#    - /data/jdk/helo:/opt/java
