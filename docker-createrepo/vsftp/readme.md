@@ -35,4 +35,4 @@ chroot_local_user=YES/NO（NO）
  chroot_local_user=YES
  chroot_list_enable=NO
  chroot_list_file=/etc/vsftpd/chroot_list
-``            
+```          
