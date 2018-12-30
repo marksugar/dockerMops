@@ -21,3 +21,18 @@ anon_mkdir_write_enable=YES    //匿名用户建立目录的权限
 anon_upload_enable=YES    //匿名用户上传文件的权限
 #anon_other_write_enable=YES    //匿名用户删除和重命名文件的权限
 ```
+
+```
+chroot_list_enable=YES/NO（NO）
+设置是否启用chroot_list_file配置项指定的用户列表文件。默认值为NO。
+chroot_list_file=/etc/vsftpd.chroot_list
+用于指定用户列表文件，该文件用于控制哪些用户可以切换到用户家目录的上级目录。
+chroot_local_user=YES/NO（NO）
+用于指定用户列表文件中的用户是否允许切换到上级目录。默认值为NO。
+```
+
+```
+ chroot_local_user=YES
+ chroot_list_enable=NO
+ chroot_list_file=/etc/vsftpd/chroot_list
+``            
