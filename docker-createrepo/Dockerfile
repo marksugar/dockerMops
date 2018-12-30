@@ -43,6 +43,6 @@ RUN useradd ${USER} -s /sbin/nologin -M \
 	&& echo -e '#!/bin/bash\nmkdir /data/{wwwroot,logs} -p\n cp /tmp/*.html /data/wwwroot \ncreaterepo -pdo /data/wwwroot /data/wwwroot\nenvsubst < /etc/nginx/vhost/ps.env > /etc/nginx/vhost/ps.conf \nsupervisord  -n -c /etc/supervisord.conf' > /startup.sh \
 	&& chmod +x /startup.sh \
 	&& yum remove git openssl-devel pcre-devel gcc make python-pip -y \
-	&& \rm -rf /usr/local/nginx-1.9.9/ ngx-fancyindex/ /var/cache/yum \
+	&& \rm -rf /usr/local/nginx-${version}/ ngx-fancyindex/ /var/cache/yum \
 	&& yum clean all
 ENTRYPOINT ["/startup.sh"]
