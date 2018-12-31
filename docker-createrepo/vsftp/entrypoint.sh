@@ -13,7 +13,7 @@ useradd -g root ${USERNAME} -d ${FTPDATA}
 sed -i "s@/var/ftp@${FTPDATA}@g"  /etc/passwd
 echo "${FTPPASSWD}" | passwd --stdin "${USERNAME}"
 chown ${USERNAME} ${FTPDATA}
-
+chmod +rx ${FTPDATA}
 
 eval "echo \"$(cat /opt/.vsftpd)\"" > /etc/vsftpd/vsftpd.conf
 eval "echo \"$(cat /opt/.nginx.conf)\"" > /etc/nginx/nginx.conf
