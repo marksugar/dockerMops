@@ -1,5 +1,7 @@
 
 ftp与docker-createrepo组合中使用
+
+![mage](https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-createrepo/vsftp/img/20181231-2.png)
 ## 快速使用
 ```
 curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-createrepo/vsftp/deploy|bash
