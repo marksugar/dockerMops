@@ -8,7 +8,7 @@ When running for the first time, you need to set REDIS_CONF to on, which will au
 
 Of course, you can set it to off, which means you can modify [/etc/redis/redis.conf](https://github.com/marksugar/dockerMops/blob/master/docker-alpine-Redis/4.0.11/4.0.11/redis.conf) arbitrarily.
 
-Please make sure your [/etc/redis/redis.conf](https://github.com/LinuxEA-Mark/docker-alpine-Redis/blob/master/4.0.11/redis.conf) exists. If not, please download it on this page.
+Please make sure your [/etc/redis/redis.conf](https://github.com/marksugar/dockerMops/blob/master/docker-alpine-Redis/4.0.11/redis.conf) exists. If not, please download it on this page.
 
 
 [docker-compose info](https://github.com/marksugar/dockerMops/blob/master/docker-alpine-Redis/4.0.11/docker-compose-redis-4-0-11.yml):
