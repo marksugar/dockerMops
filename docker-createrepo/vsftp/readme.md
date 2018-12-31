@@ -2,7 +2,7 @@
 ftp与docker-createrepo组合中使用
 ## 快速使用
 ```
-curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-createrepo/vsftp/docker-compose.yaml|bash
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-createrepo/vsftp/deploy|bash
 ```
 ## 须知
 你至少需要挂载目录，如果你不想修改默认的变量参数，就会使用默认参数
