@@ -1,0 +1,24 @@
+#!/bin/bash
+cat > $PWD/docker-compose.yaml < EOF
+version: '2.2'
+services:
+  nginx_repo:
+    image: marksugar/nginx_createrepo:v0.2
+ #   build: .
+    container_name: nginx_repo
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /data/mirrors:/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - USERNAME=marksugar
+      - FTPPASSWD=123
+      - FTPDATA=/data/wwwroot
+      - SERVER_NAME=localhost
+      - NGINX_PORT=80
+      - WELCOME="welome to linuxea.com"
+EOF
+docker-compose -f $PWD/docker-compose.yaml up -d
+\rm -rf $0
+#\rm -rf deploy
