@@ -21,7 +21,7 @@ Please make sure your [/etc/redis/redis.conf](https://github.com/marksugar/docke
      - MAXMEMORY_SIZE=4096
 ```
 
-In compose you can see the details of the build, depending on the [Dockerfile](https://github.com/LinuxEA-Mark/docker-alpine-Redis/blob/master/4.0.11/Dockerfile). Of course, you can use image or you can customize it yourself with [Dockerfile](https://github.com/marksugar/dockerMops/blob/master/docker-alpine-Redis/4.0.11/Dockerfile).
+In compose you can see the details of the build, depending on the [Dockerfile](https://github.com/marksugar/dockerMops/blob/master/docker-alpine-Redis/4.0.11/Dockerfile). Of course, you can use image or you can customize it yourself with [Dockerfile](https://github.com/marksugar/dockerMops/blob/master/docker-alpine-Redis/4.0.11/Dockerfile).
 
 centos install :
 
