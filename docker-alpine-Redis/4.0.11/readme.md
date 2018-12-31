@@ -6,7 +6,7 @@ In the environment of [docker-compose](https://github.com/marksugar/dockerMops/b
 
 When running for the first time, you need to set REDIS_CONF to on, which will automatically map the configuration file to the host, which is critical.
 
-Of course, you can set it to off, which means you can modify [/etc/redis/redis.conf](https://github.com/marksugar/dockerMops/blob/master/docker-alpine-Redis/4.0.11/4.0.11/redis.conf) arbitrarily.
+Of course, you can set it to off, which means you can modify [/etc/redis/redis.conf](https://github.com/marksugar/dockerMops/blob/master/docker-alpine-Redis/4.0.11/redis.conf) arbitrarily.
 
 Please make sure your [/etc/redis/redis.conf](https://github.com/marksugar/dockerMops/blob/master/docker-alpine-Redis/4.0.11/redis.conf) exists. If not, please download it on this page.
 
