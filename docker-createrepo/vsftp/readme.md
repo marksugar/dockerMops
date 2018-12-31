@@ -1,10 +1,32 @@
 
+ftp与docker-createrepo组合中使用
+## 快速使用
+```
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-createrepo/vsftp/docker-compose.yaml|bash
+```
+## 须知
+你至少需要挂载目录，如果你不想修改默认的变量参数，就会使用默认参数
+```
+    network_mode: "host"
+    volumes:
+      - /data/mirrors1:/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - USERNAME=marksugar
+      - FTPPASSWD=123
+      - FTPDATA=/data/wwwroot
+      - SERVER_NAME=localhost
+      - NGINX_PORT=80
+      - WELCOME="welome to linuxea.com"
+```
+如果你要修改网络模式，请自己加端口映射。
+## eval
 用作eval来进行替换，这是一个好方法。在这个ftp与docker-createrepo组合中使用
 ```
 eval "echo \"$(cat /opt/.supervisord.conf)\"" > /etc/supervisord.conf
 ```
 
-## 配置
+## ftp配置参数
 ```
 anonymous_enable=YES    //匿名访问 开启
 local_enable=YES    //本地实体用户访问 开启
