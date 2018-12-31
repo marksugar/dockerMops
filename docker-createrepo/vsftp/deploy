@@ -1,5 +1,5 @@
 #!/bin/bash
-cat > $PWD/docker-compose.yaml < EOF
+cat > $PWD/docker-compose.yaml << EOF
 version: '2.2'
 services:
   nginx_repo:
