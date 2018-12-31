@@ -1,5 +1,10 @@
 
+用作eval来进行替换，这是一个好方法。在这个ftp与docker-createrepo组合中使用
+```
+eval "echo \"$(cat /opt/.supervisord.conf)\"" > /etc/supervisord.conf
+```
 
+## 配置
 ```
 anonymous_enable=YES    //匿名访问 开启
 local_enable=YES    //本地实体用户访问 开启
