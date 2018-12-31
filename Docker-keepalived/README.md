@@ -5,4 +5,4 @@ Initial attempts, the brain split with the scheduled task to run once a minute, 
 
 * install
 
-curl -Lks4 https://raw.githubusercontent.com/LinuxEA-Mark/Docker-keepalived/master/create_docker-keepalived.sh |bash
+curl -Lks4 https://raw.githubusercontent.com/marksugar/dockerMops/master/Docker-keepalived/create_docker-keepalived.sh |bash
