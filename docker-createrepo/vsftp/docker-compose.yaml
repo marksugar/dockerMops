@@ -6,6 +6,7 @@ services:
     container_name: nginx_repo
     restart: always
     network_mode: "host"
+    cpuset: '1'    
     volumes:
       - /data/mirrors:/data
       - /etc/localtime:/etc/localtime:ro
