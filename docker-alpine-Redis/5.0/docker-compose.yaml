@@ -11,7 +11,7 @@ services:
     - REQUIRE_PASS=OTdmOWI4ZTM4NTY1M2M4OTZh
     - MASTER_AUTH=OTdmOWI4ZTM4NTY1M2M4OTZh
     - MAXCLIENTS_NUM=600
-    - MAXMEMORY_SIZE=4096
+    - MAXMEMORY_SIZE=4096M
     volumes:
     - /etc/localtime:/etc/localtime:ro
 #    - /etc/redis:/etc/redis
