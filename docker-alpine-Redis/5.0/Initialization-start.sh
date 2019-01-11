@@ -31,12 +31,12 @@ if [ -f ${CONFIG_PATH}/redis.conf ]; then
 			echo -e "[ok] Replace the masterauth=${MASTER_AUTH} variable value"
 		fi	
 		echo -e "[i] Start up /usr/local/bin/redis-server /etc/redis/redis.conf "
-		/usr/local/bin/redis-server /etc/redis/redis.conf
+		exec /usr/local/bin/redis-server /etc/redis/redis.conf
 	else
 		echo -e "[i] If you want to use variables, please turn on REDIS_CONF=on"
 		echo -e "[i] No variable substitution /etc/redis/redis.conf"
 		echo -e "[i] Start up /usr/local/bin/redis-server /etc/redis/redis.conf"
-		/usr/local/bin/redis-server /etc/redis/redis.conf
+		exec /usr/local/bin/redis-server /etc/redis/redis.conf
 	fi
 	  
 else
