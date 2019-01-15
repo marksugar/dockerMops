@@ -21,4 +21,4 @@ All files are in the optimized path.
 
 * install 
 
-curl -Lks4 https://raw.githubusercontent.com/LinuxEA-Mark/docker-subversion1.9.4/master/Optimized/svn-1.10-install.sh|bash
+curl -Lks4 https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-subversion/Optimized/svn-1.10-install.sh|bash
