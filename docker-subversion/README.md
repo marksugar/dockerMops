@@ -4,7 +4,7 @@ Use alpine base image, apk add subversion version 1.9.4, mount /data/docker/subv
 
 * install 
 
-curl -Lks4 https://raw.githubusercontent.com/LinuxEA-Mark/docker-subversion1.9.4/master/docker-create-svn.sh |bash
+curl -Lks4 https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-subversion/docker-create-svn.sh |bash
 
 
 # Optimized subversion 1.10
