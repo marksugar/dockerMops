@@ -10,5 +10,5 @@ If yes, try
 * install
 
 ```
-curl -Lk https://raw.githubusercontent.com/LinuxEA-Mark/docker-subversion1.9.4/master/Optimized/svn-1.10-install.sh|bash
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-subversion/Optimized/svn-1.10-install.sh|bash
 ```
