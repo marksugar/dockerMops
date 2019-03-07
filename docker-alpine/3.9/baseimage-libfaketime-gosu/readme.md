@@ -6,3 +6,6 @@
 
 
 [libfaketime](https://github.com/wolfcw/libfaketime.git) ÐÞ¸ÄÈÝÆ÷Ê±¼ä
+
+
+docker pull marksugar/alpine:3.9-time-gosu
