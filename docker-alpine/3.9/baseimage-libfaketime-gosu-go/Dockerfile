@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.9 as libfaketime
 MAINTAINER www.linuxea.com
 LABEL maintainer="www.linuxea.com"
 COPY entrypoint.sh /bin/entrypoint.sh
