@@ -1,2 +1,2 @@
 
-docker pull marksugar/go:alpine-go1.12
+docker pull marksugar/go:alpine-go1.11.5
