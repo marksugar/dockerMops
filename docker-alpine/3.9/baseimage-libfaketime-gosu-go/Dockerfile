@@ -12,7 +12,7 @@ RUN apk add --no-cache --virtual .build-deps \
 	&& cd libfaketime/src \
 	&& make install \
 	&& apk del .build-deps \
-	&& apk add --no-cache bash go \
+	&& apk add --no-cache bash go musl-dev \
 	&& wget https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64 -O /usr/local/bin/gosu \
 	&& chmod +x /bin/entrypoint.sh /usr/local/bin/gosu \
 	&& \rm -rf /var/cache/apk/*
