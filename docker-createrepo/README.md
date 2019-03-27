@@ -29,7 +29,7 @@ If nothing unexpected, you will see the following
 
 However, you can change the page by modifying or deleting the header and bottom html files under /data/wwwroot/
 
-![ok](https://raw.githubusercontent.com/marksugar/master/docker-createrepo/ok.png)
+![ok](https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-createrepo/ok.png)
 
 When you modify the html, you should mount it in compose.yaml
 ```
