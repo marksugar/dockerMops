@@ -1,0 +1,16 @@
+version: '2'
+services:
+  nginx:
+    image: marksugar/nginx:1.15.10
+    container_name: nginx
+    restart: always
+    network_mode: "host"
+#    volumes_from:
+#    - php-fpm
+    volumes: 
+    - /etc/nginx/:/etc/nginx/
+    - /data/wwwroot:/data/wwwroot
+    - /data/logs/:/data/logs/ 
+    ports:
+    - "40080:40080"
+	- "80:80"
