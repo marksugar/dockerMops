@@ -43,6 +43,7 @@ RUN addgroup -g 400 -S ${USER} \
 --http-fastcgi-temp-path=/var/tmp/nginx/fastcgi \
 --http-uwsgi-temp-path=/var/tmp/nginx/uwsgi \
 && make && make install \
+&& ln -s /usr/local/nginx/sbin/nginx /bin/nginx \
 && mkdir -p /var/tmp/nginx/{client,fastcgi,proxy,uwsgi} /etc/nginx/vhost /data/logs \
 && rm -rf /var/cache/apk/* /usr/local/nginx-${version}.tar.gz /etc/nginx/nginx.conf \
 && curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/supervisord/supervisord.conf -o /etc/supervisord.conf \
@@ -54,6 +55,6 @@ RUN addgroup -g 400 -S ${USER} \
 		| xargs -r  apk info --installed \
 		|sort -u \
 )" \
-&& apk add --no-cache --virtual .ngx-runDev ${runDev} supervisor \
+&& apk add --no-cache --virtual .ngx-runDev ${runDev} inotify-tools supervisor \
 && apk del  .build-deps
 ENTRYPOINT ["supervisord","-n","-c","/etc/supervisord.conf"]

@@ -13,4 +13,4 @@ services:
     - /data/logs/:/data/logs/ 
     ports:
     - "40080:40080"
-	- "80:80"
+    - "80:80"
