@@ -1,3 +1,5 @@
+这个已经暂停维护，nginx移步到[docker-nginx](https://github.com/marksugar/dockerMops/tree/master/docker-nginx)
+
 Some php use centos image, [nginx_1.14.0](https://github.com/LinuxEA-Mark/docker-alpine-nginx-php/tree/master/nginx_1.14.0) installed vts module
 
 [nginx 1.12.0 install](https://github.com/LinuxEA-Mark/docker-alpine-nginx-php/tree/master/nginx-1.12.0)
