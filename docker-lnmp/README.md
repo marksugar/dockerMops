@@ -63,5 +63,7 @@ services:
     ports:
       - "3306"	
 ```
-
-curl -Lks4 https://raw.githubusercontent.com/LinuxEA-Mark/docker-alpine-nginx-php/master/LNP/create_lnp.sh |bash
+- 脚本安装
+```
+curl -Lks4 https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-lnmp/create_lnp.sh |bash
+```
