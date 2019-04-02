@@ -10,8 +10,45 @@ docker-compose自用
 # 目录
 
 - [docker-SoftEtherVPN](#docker-SoftEtherVPN)
-
+- [docker-redis](#docker-redis)
+- [docker-nginx](#docker-nginx)
 
 ## docker-SoftEtherVPN
 
 https://github.com/marksugar/dockerMops/tree/master/docker-SoftEtherVPN
+
+## docker-redis
+
+https://github.com/marksugar/dockerMops/tree/master/docker-alpine-Redis/5.0
+
+- redis5 install
+```
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-alpine-Redis/5.0/loadinstall.sh|bash
+```
+## docker-nginx
+
+你需要一个nginx配置文件，而后挂载到容器内即可
+```
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/nginx-1.15.10.tar.gz|tar xz -C /etc/
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/supervisord/docker-compose.yml -o $PWD/docker-compose.yml
+docker-compose -f $PWD/docker-compose.yml up -d
+```
+- docker-compose
+```
+version: '2'
+services:
+  nginx:
+    image: marksugar/nginx:1.15.10
+    container_name: nginx
+    restart: always
+    network_mode: "host"
+#    volumes_from:
+#    - php-fpm
+    volumes: 
+    - /etc/nginx/:/etc/nginx/
+    - /data/wwwroot:/data/wwwroot
+    - /data/logs/:/data/logs/ 
+    ports:
+    - "40080:40080"
+    - "80:80"
+```    
