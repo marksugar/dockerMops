@@ -12,7 +12,7 @@ docker-compose自用
 - [docker-SoftEtherVPN](#docker-SoftEtherVPN)
 - [docker-redis](#docker-redis)
 - [docker-nginx](#docker-nginx)
-
+- [docker-alpine-gosu](#alpine)
 ## docker-SoftEtherVPN
 
 https://github.com/marksugar/dockerMops/tree/master/docker-SoftEtherVPN
@@ -52,3 +52,11 @@ services:
     - "40080:40080"
     - "80:80"
 ```    
+## alpine
+```
+基于gosu和libfaketime
+[gosu](https://github.com/tianon/gosu)用于普通用户启动应用
+[libfaketime](https://github.com/wolfcw/libfaketime.git) 修改容器时间
+```
+docker pull marksugar/alpine:3.9-time-gosu
+```
