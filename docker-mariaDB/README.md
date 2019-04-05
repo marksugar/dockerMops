@@ -9,7 +9,7 @@ Recently, I made a mirror of maxscale, if you will use it, you can try [maxscale
 
 * install
 
-curl -LKs4 https://raw.githubusercontent.com/LinuxEA-Mark/docker-mariaDB/master/docker-mysql-create.sh|bash 
+curl -LKs4 https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/docker-mysql-create.sh|bash 
 
 ## but, I re-produced a alpine as a basis, and now you can try 2017-07-21
 
