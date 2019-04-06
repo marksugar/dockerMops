@@ -13,5 +13,5 @@ else
     mkdir ${DTDIR} -p
   fi
 fi
-curl -Lks4 https://raw.githubusercontent.com/LinuxEA-Mark/docker-mariaDB/master/alpine-maridb/docker-compose-mariadb.yaml -o ${DTLNMP}/docker-compose-mariadb.yaml
+curl -Lks4 https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/alpine-maridb/docker-compose-mariadb.yaml -o ${DTLNMP}/docker-compose-mariadb.yaml
 docker-compose -f  ${DTLNMP}/docker-compose-mariadb.yaml up --build -d
