@@ -7,7 +7,7 @@ docker-compose自用
 | redis:5.0             |       2      | docker-redis           | None    | 6379/26379|2019      |
 | nginx:1.15.10         |       2      | docker-nginx           | None    | 40080/80  |2019      |
 | alpine:3.9      |       2      | docker-alpine-gosu     | None    | None      |2019      |
-| nginx1.14.2          |       2      | docker-nginx-createrepo| None    | None      |2019      |
+| nginx1.14.2/vsftpd   |       2      | docker-nginx-createrepo| None    | 80/21 |2019      |
 
 # 目录
 
@@ -15,7 +15,7 @@ docker-compose自用
 - [docker-redis](#docker-redis)
 - [docker-nginx](#docker-nginx)
 - [docker-alpine-gosu](#alpine)
-- [docker-nginx-createrepo](# docker-nginx-createrepo)
+- [docker-nginx-createrepo](#docker-nginx-createrepo)
 
 ## docker-SoftEtherVPN
 
