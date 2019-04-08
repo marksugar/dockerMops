@@ -21,7 +21,7 @@ It contains this information
       - MYSQL_USER=jumpserver
       - MYSQL_PASSWORD=ispasswd
  ```
-在第一次启动时，会调用[start.sh](https://github.com/LinuxEA-Mark/docker-mariaDB/blob/master/alpine-maridb/start.sh)进行配置，详细信息需要参考这个文件
+在第一次启动时，会调用[start.sh](https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/alpine-maridb/start.sh)进行配置，详细信息需要参考这个文件
 
 In the first start, it will call start.sh configuration, the details need to refer to this document
 
