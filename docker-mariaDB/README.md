@@ -1,8 +1,5 @@
 # Docker-MariaDB
 
-##　This is a binary mariadb installation file, you can use the local source or download the official website installation package installation. It uses centos as a mirror, so it's slightly bulky 。It's bulky and I do not recommend using it in a production environment.
-
-
 Recently, I made a mirror of maxscale, if you will use it, you can try [maxscale reference](https://github.com/LinuxEA-Mark/maxscale/tree/master/conf)
 
 这是一个mariadb的安装镜像，在安装前，你需要指定从网络还是本地安装，你需要修改，它使用centos作为基础镜像制作，因此体积较大，我并不建议你在生产环境使用它，你可以作为参考
