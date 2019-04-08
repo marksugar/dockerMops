@@ -91,3 +91,8 @@ eval "echo \"$(cat /opt/.supervisord.conf)\"" > /etc/supervisord.conf
 ```
 docker pull marksugar/alpine:3.9-time-gosu
 ```
+传递-e USER_ID=ID USER_NAME=USER修改id和程序用户，这取决于[entrypoint.sh](https://github.com/marksugar/dockerMops/blob/master/docker-alpine/3.9/baseimage-libfaketime-gosu/entrypoint.sh)脚本
+```
+USER_ID=${USER_ID:-1101}
+USER_NAME=${USER_NAME:-www}
+```
