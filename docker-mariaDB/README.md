@@ -27,7 +27,7 @@ In the first start, it will call start.sh configuration, the details need to ref
 
 * install alpine-mariadb
 
-curl -Lk https://raw.githubusercontent.com/LinuxEA-Mark/docker-mariaDB/master/alpine-maridb/create-alpine-mariadb.sh |bash
+curl -Lk curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/alpine-maridb/create-alpine-mariadb.sh |bash |bash
 
 * The latest update 2016/12/16
 * ontent:
