@@ -96,3 +96,28 @@ docker pull marksugar/alpine:3.9-time-gosu
 USER_ID=${USER_ID:-1101}
 USER_NAME=${USER_NAME:-www}
 ```
+## docker-mariadb
+- install 
+```
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/alpine-maridb/create-alpine-mariadb.sh |bash
+```
+它包含了以下信息：
+```
+      environment:
+      - MYSQL_DATABASE=jumpserver
+      - MYSQL_USER=jumpserver
+      - MYSQL_PASSWORD=ispasswd
+```
+在第一次启动时，会调用[start.sh](https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/alpine-maridb/start.sh)进行配置，详细信息需要参考这个文件
+```
+[root@Linuxea-com /data/docker]# mysql -uroot -pabc123 -h127.0.0.1
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 10.1.19-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> 
+```
