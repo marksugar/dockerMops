@@ -18,6 +18,8 @@ docker-compose自用
 - [docker-alpine-gosu](#alpine)
 - [docker-nginx-createrepo](#docker-nginx-createrepo)
 - [docker-mariadb](#docker-mariadb)
+- [docker-nmp](#docker-lnmp)
+
 ## docker-SoftEtherVPN
 
 https://github.com/marksugar/dockerMops/tree/master/docker-SoftEtherVPN
@@ -122,3 +124,6 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 MariaDB [(none)]> 
 ```
+## docker-lnmp
+
+参考[lnmp页面]ttps://github.com/marksugar/dockerMops/tree/master/docker-lnmp)
