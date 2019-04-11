@@ -126,4 +126,4 @@ MariaDB [(none)]>
 ```
 ## docker-lnmp
 
-参考[lnmp页面]ttps://github.com/marksugar/dockerMops/tree/master/docker-lnmp)
+参考[lnmp页面](https://github.com/marksugar/dockerMops/tree/master/docker-lnmp)
