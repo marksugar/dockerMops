@@ -19,6 +19,7 @@ docker-compose自用
 - [docker-nginx-createrepo](#docker-nginx-createrepo)
 - [docker-mariadb](#docker-mariadb)
 - [docker-nmp](#docker-lnmp)
+- [docker-svn](#docker-svn)
 
 ## docker-SoftEtherVPN
 
@@ -127,3 +128,18 @@ MariaDB [(none)]>
 ## docker-lnmp
 
 参考[lnmp页面](https://github.com/marksugar/dockerMops/tree/master/docker-lnmp)
+## docker-svn
+Joined the supervisor daemon Version 1.10
+
+添加了守护程序supervisor1.0
+
+Please make sure your host is using the redhat series.
+
+并且确保你的系统是redhat系列
+
+If yes, try
+
+如果是你可以试试安装
+```
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-subversion/Optimized/svn-1.10-install.sh|bash
+```
