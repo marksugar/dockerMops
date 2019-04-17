@@ -10,6 +10,7 @@ docker-compose自用
 | nginx1.14.2/vsftpd   |       2      | docker-nginx-createrepo| None    | 80/21 |2019      |
 | mariadb:10.2.15   |       2      | docker-mariadb| None    | 3306 |2019      |
 | svn:1.10 | 2 | docker-svn | None | 3690 |2019
+| php-fpm:5.6.40/7.x| 2 |docker-php-fpm|9000|2019
 # 目录
 
 - [docker-SoftEtherVPN](#docker-SoftEtherVPN)
@@ -20,6 +21,7 @@ docker-compose自用
 - [docker-mariadb](#docker-mariadb)
 - [docker-nmp](#docker-lnmp)
 - [docker-svn](#docker-svn)
+- [docker-php-fpm](#docker-php-fpm)
 
 ## docker-SoftEtherVPN
 
@@ -59,7 +61,13 @@ services:
     ports:
     - "40080:40080"
     - "80:80"
-```    
+``` 
+## docker-php-fpm
+我们需要下载一个配置文件而后通过docker-compose启动
+- install 5.6.40
+```
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-php/alpine-php-5.6.40/install_5.6.40.sh |bash
+```   
 ## docker-nginx-createrepo
 这是一个我用来做内网共享文件的mirrors，我更新了后可以使用ftp上传更方便，点[此处](https://github.com/marksugar/dockerMops/tree/master/docker-createrepo/vsftp)前往查看
 - 部署
