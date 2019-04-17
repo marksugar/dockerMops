@@ -83,6 +83,25 @@ services:
     - /data/logs/php-fpm:/logs
     - /data/wwwroot:/data/wwwroot
 ```	
+- install 7.3.4
+```
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-php/alpine-php-7.3.4/install-php-734.sh|bash
+```
+docker-compose大致如下：
+```
+version: '2'
+services:
+  php-fpm:
+    image: marksugar/php-fpm:7.3.4
+    container_name: php-fpm
+    restart: always
+    network_mode: "host"
+    volumes:
+    - /usr/local/php/etc/php-fpm.conf:/usr/local/php/etc/php-fpm.conf
+    - /usr/local/php/etc/php.ini:/usr/local/php/lib/php.ini
+    - /data/logs/php-fpm:/logs
+    - /data/wwwroot:/data/wwwroot
+```	
 ## docker-nginx-createrepo
 这是一个我用来做内网共享文件的mirrors，我更新了后可以使用ftp上传更方便，点[此处](https://github.com/marksugar/dockerMops/tree/master/docker-createrepo/vsftp)前往查看
 - 部署
