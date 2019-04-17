@@ -5,9 +5,9 @@ services:
     container_name: php-fpm
     restart: always
     network_mode: "host"
-	environment:
-	- USER_ID=400
-	- USER_NAME=www
+    environment:
+    - USER_ID=400
+    - USER_NAME=www
     volumes:
     - /usr/local/php/etc/php-fpm.conf:/usr/local/php/etc/php-fpm.conf
     - /usr/local/php/etc/php.ini:/usr/local/php/lib/php.ini
