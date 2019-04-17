@@ -10,7 +10,7 @@ docker-compose自用
 | nginx1.14.2/vsftpd   |       2      | docker-nginx-createrepo| None    | 80/21 |2019      |
 | mariadb:10.2.15   |       2      | docker-mariadb| None    | 3306 |2019      |
 | svn:1.10 | 2 | docker-svn | None | 3690 |2019
-| php-fpm:5.6.40/7.x| 2 |docker-php-fpm|9000|2019
+| php-fpm:5.6.40/7.x| 2 |docker-php-fpm|www |9000|2019
 # 目录
 
 - [docker-SoftEtherVPN](#docker-SoftEtherVPN)
