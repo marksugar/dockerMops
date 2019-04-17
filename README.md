@@ -6,7 +6,7 @@ docker-compose自用
 | SoftEtherVPN:4.27-9668-beta  |       2      | docker-SoftEtherVPN    | None    | 1194      |2018      |
 | redis:5.0             |       2      | docker-redis           | None    | 6379/26379|2019      |
 | nginx:1.15.10         |       2      | docker-nginx           | None    | 40080/80  |2019      |
-| alpine:3.9      |       2      | docker-alpine-gosu     | None    | None      |2019      |
+| alpine:3.9/3.8      |       2      | docker-alpine-gosu     | None    | None      |2019      |
 | nginx1.14.2/vsftpd   |       2      | docker-nginx-createrepo| None    | 80/21 |2019      |
 | mariadb:10.2.15   |       2      | docker-mariadb| None    | 3306 |2019      |
 | svn:1.10 | 2 | docker-svn | None | 3690 |2019
@@ -123,6 +123,7 @@ docker pull marksugar/alpine:3.9-time-gosu
 USER_ID=${USER_ID:-1101}
 USER_NAME=${USER_NAME:-www}
 ```
+- 仍然有一个3.8版本的alpine专门为php使用**marksugar/alpine:3.8-time-gosu**
 ## docker-mariadb
 - install 
 ```
