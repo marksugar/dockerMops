@@ -241,6 +241,71 @@ MariaDB [(none)]>
 ## docker-lnmp
 
 参考[lnmp页面](https://github.com/marksugar/dockerMops/tree/master/docker-lnmp)
+
+如果你要使用Php7.3.4，如下
+
+And install php 7.3.4
+```
+PHPATH=/usr/local/php/etc
+mkdir $PHPATH -p
+curl -Lk  https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-php/alpine-php-7.3.4-gosu/php-fpm.conf -o $PHPATH/php-fpm.conf
+curl -Lk  https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-php/alpine-php-5.6.40/php.ini -o $PHPATH/php.ini
+```
+```
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/nginx-1.15.10.tar.gz|tar xz -C /etc/
+```
+docker-compose
+```
+version: '2'
+services:
+  php-fpm:
+    image: marksugar/php-fpm:7.3.4-gosu
+    container_name: php-fpm
+    restart: always
+    network_mode: "host"
+    environment:
+    - USER_ID=400
+    - USER_NAME=www
+    volumes:
+    - /usr/local/php/etc/php-fpm.conf:/usr/local/php/etc/php-fpm.conf
+    - /usr/local/php/etc/php.ini:/usr/local/php/lib/php.ini
+    - /data/logs/php-fpm:/logs
+    - /data/wwwroot:/data/wwwroot
+  nginx:
+    image: marksugar/nginx:1.15.10
+    container_name: nginx
+    privileged: true
+    restart: always
+    network_mode: "host"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1G"
+    volumes_from:
+      - php-fpm
+    volumes:
+    - /etc/nginx/:/etc/nginx/
+    - /data/wwwroot:/data/wwwroot
+    - /data/logs/:/data/logs/
+    ports:
+    - "40080:40080"
+    - "80:80"
+  mariadb:
+    image: marksugar/mariadb:10.2.15  
+    container_name: mariadb
+    privileged: true
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro      
+      - /data/mariadb:/data/mariadb:rw
+    environment:
+      - MYSQL_DATABASE=jumpserver
+      - MYSQL_USER=jumpserver
+      - MYSQL_PASSWORD=ispasswd
+    ports:
+      - "3306"	
+```      
 ## docker-svn
 Joined the supervisor daemon Version 1.10
 
