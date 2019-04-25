@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  mariadb:
+    image: marksugar/mariadb:10.2.22
+    container_name: mariadb
+    privileged: true
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /data/mariadb:/data/mariadb:rw
+    environment:
+      - MYSQL_DATABASE=jumpserver
+      - MYSQL_USER=jumpserver
+      - MYSQL_PASSWORD=ijumpasswd
+    ports:
+      - "3306"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1G"

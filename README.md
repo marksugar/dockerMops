@@ -8,7 +8,7 @@ docker-compose自用
 | nginx:1.15.10         |       2      | docker-nginx           | None    | 40080/80  |2019      |
 | alpine:3.9/3.8      |       2      | docker-alpine-gosu     | None    | None      |2019      |
 | nginx1.14.2/vsftpd   |       2      | docker-nginx-createrepo| None    | 80/21 |2019      |
-| mariadb:10.2.15   |       2      | docker-mariadb| None    | 3306 |2019      |
+| mariadb:10.2.15/10.2.22   |       2      | docker-mariadb| None    | 3306 |2019      |
 | svn:1.10 | 2 | docker-svn | None | 3690 |2019
 | php-fpm:5.6.40/7.x| 2 |docker-php-fpm|www |9000|2019
 # 目录
@@ -213,17 +213,8 @@ USER_NAME=${USER_NAME:-www}
 - 仍然有一个3.8版本的alpine专门为php使用**marksugar/alpine:3.8-time-gosu**
 ## docker-mariadb
 - install 
-```
-curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/alpine-maridb/create-alpine-mariadb.sh |bash
-```
-它包含了以下信息：
-```
-      environment:
-      - MYSQL_DATABASE=jumpserver
-      - MYSQL_USER=jumpserver
-      - MYSQL_PASSWORD=ispasswd
-```
-在第一次启动时，会调用[start.sh](https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/alpine-maridb/start.sh)进行配置，详细信息需要参考这个文件
+
+在第一次启动时，会调用[entrypoint.sh](https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/10.2.22/entrypoint.sh)进行配置，详细信息需要参考这个文件
 ```
 [root@Linuxea-com /data/docker]# mysql -uroot -pabc123 -h127.0.0.1
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
@@ -236,6 +227,17 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 MariaDB [(none)]> 
 ```
+- docker-compose
+
+在docker-compose中传递变量可以有效的在第一次运行的时候创建用户，表，授权，仍然取决于这个脚本[entrypoint.sh](https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/10.2.22/entrypoint.sh)
+
+```
+    environment:
+      - MYSQL_DATABASE=jumpserver
+      - MYSQL_USER=jumpserver
+      - MYSQL_PASSWORD=ijumpasswd
+```
+
 ## docker-lnmp
 
 参考[lnmp页面](https://github.com/marksugar/dockerMops/tree/master/docker-lnmp)
