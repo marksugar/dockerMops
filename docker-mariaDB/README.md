@@ -2,10 +2,11 @@
 
 基础镜像: debian:9.8
 
-
+```
 docker pull marksugar/mariadb:10.0.38
 docker pull marksugar/mariadb:5.5.63
-
+```
+环境变量
  ```
      environment:
        - USER_ID=306
@@ -29,8 +30,9 @@ docker pull marksugar/mariadb:5.5.63
 
 
 * install 10.2.15
+```
 curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-mariaDB/10.2.15/create-alpine-mariadb.sh |bash
-
+```
 * install 10.2.22
 ```
 mkdir /data/ -p
