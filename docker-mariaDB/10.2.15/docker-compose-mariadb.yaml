@@ -1,0 +1,19 @@
+version: '2'
+services:
+  mariadb:
+    image: marksugar/mariadb:10.2.15  
+#    build: 
+#       context: https://raw.githubusercontent.com/LinuxEA-Mark/docker-mariaDB/master/alpine-maridb/Dockerfile
+    container_name: mariadb
+    privileged: true
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro      
+      - /data/mariadb:/data/mariadb:rw
+    environment:
+      - MYSQL_DATABASE=jumpserver
+      - MYSQL_USER=jumpserver
+      - MYSQL_PASSWORD=ispasswd
+    ports:
+      - "3306"
