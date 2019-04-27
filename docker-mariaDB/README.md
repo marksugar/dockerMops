@@ -15,7 +15,25 @@ docker pull marksugar/mariadb:5.5.63
        - MYSQL_USER=jumpserver
        - MYSQL_PASSWORD=ispasswd
 ```
-
+- docker-compose
+```
+version: '3'
+services:
+  mariadb:
+    image: marksugar/mariadb:10.0.38
+    container_name: mariadb
+    restart: always
+    network_mode: "host"
+    environment:
+    - USER_ID=306
+    - USER_NAME=mysql
+    volumes:
+    - /data/mariadb:/data/mariadb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1G"
+```
 ## alpine
 
 它包含了以下信息：
