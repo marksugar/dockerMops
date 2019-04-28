@@ -1,25 +1,73 @@
 
-这是[docker-createrepo](https://github.com/marksugar/dockerMops/tree/master/docker-createrepo)的第二个版本，添加了ftp与docker-createrepo组合中使用
+这是[docker-createrepo](https://github.com/marksugar/dockerMops/tree/master/docker-createrepo)的第三个版本，添加了ftp与docker-createrepo组合中使用，并且加了
+```
+- build
+
+docker build --build-arg version="1.15.12" -t marksugar/nginx_createrepo:v0.3 .
+
+- image
+
+docer pull marksugar/nginx_createrepo:v0.3 
+
+- docker-compsoe
+
+可以往vhost下挂载文件,修改配置文件和升级到1.15.12
+
+```
+   include vhost/*.conf;
+```
+
+```
+version: '3'
+services:
+  nginx_createrepo:
+    image: marksugar/nginx_createrepo:v0.3
+    container_name: nginx_createrepo
+    restart: always
+    privileged: true
+    network_mode: "host"
+    volumes:
+    - /data/mirrors:/data
+    - /data/logs:/data/logs
+    - /data/mirrors/wwwroot:/data/wwwroot
+    - /etc/localtime:/etc/localtime:ro
+    - /data/mirrors/footer.html:/tmp/footer.html
+    - /data/mirrors/header.html:/tmp/header.html
+    - /data/linuxea:/data/linuxea
+    - /etc/nginx/vhost:/etc/nginx/vhost
+    - /etc/nginx/cert:/etc/nginx/cert
+    environment:
+    - NGINX_PORT=443
+    - SERVER_NAME=ftp.linuxea.com
+    - USERNAME=marksugar
+    - FTPPASSWD=MTU1NTgzNTA2Ngo
+    - FTPDATA=/data/wwwroot
+    - NGINX_PORT=80
+    - WELCOME="welome to linuxea.com"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1G"
+```
+
+
 
 ![mage](https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-createrepo/vsftp/img/20181231-2.png)
 ## 快速使用
 ```
-curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-createrepo/vsftp/deploy|bash
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-createrepo/vsftp-arg/deploy|bash
 ```
 ## 须知
 你至少需要挂载目录，如果你不想修改默认的变量参数，就会使用默认参数
 ```
-    network_mode: "host"
-    volumes:
-      - /data/mirrors1:/data
-      - /etc/localtime:/etc/localtime:ro
     environment:
-      - USERNAME=marksugar
-      - FTPPASSWD=123
-      - FTPDATA=/data/wwwroot
-      - SERVER_NAME=localhost
-      - NGINX_PORT=80
-      - WELCOME="welome to linuxea.com"
+    - NGINX_PORT=443
+    - SERVER_NAME=ftp.linuxea.com
+    - USERNAME=marksugar
+    - FTPPASSWD=MTU1NTgzNTA2Ngo
+    - FTPDATA=/data/wwwroot
+    - NGINX_PORT=80
+    - WELCOME="welome to linuxea.com"
 ```
 如果你要修改网络模式，请自己加端口映射。
 ## eval
@@ -68,4 +116,5 @@ chroot_list_file=/etc/vsftpd/vsftpd.chroot_list
 添加锁定目录用户
 ```
 marksugar
-```          
+```      
+    

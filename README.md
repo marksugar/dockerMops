@@ -7,8 +7,8 @@ docker-compose自用
 | redis:5.0             |       2      | docker-redis           | None    | 6379/26379|2019      |
 | nginx:1.15.10         |       2      | docker-nginx           | None    | 40080/80  |2019      |
 | alpine:3.9/3.8      |       2      | docker-alpine-gosu     | None    | None      |2019      |
-| nginx1.14.2/vsftpd   |       2      | docker-nginx-createrepo| None    | 80/21 |2019      |
-| mariadb:10.2.15/10.2.22   |       2      | docker-mariadb| None    | 3306 |2019      |
+| nginx/vsftpd   |       2      | docker-nginx-createrepo| None    | 80/21 |2019      |
+| mariadb   |       2      | docker-mariadb| None    | 3306 |2019      |
 | svn:1.10 | 2 | docker-svn | None | 3690 |2019
 | php-fpm:5.6.40/7.x| 2 |docker-php-fpm|www |9000|2019
 # 目录
@@ -171,6 +171,9 @@ PID   USER     TIME  COMMAND
    35 www       0:00 php-fpm: pool www
 ```
 ## docker-nginx-createrepo
+
+在[marksugar/nginx_createrepo:v0.3](https://github.com/marksugar/dockerMops/tree/master/docker-createrepo/vsftp-arg)中添加了vhost的单独挂载，而[marksugar/nginx_createrepo:v0.2](https://github.com/marksugar/dockerMops/tree/master/docker-createrepo/vsftp)只是repo
+
 这是一个我用来做内网共享文件的mirrors，我更新了后可以使用ftp上传更方便，点[此处](https://github.com/marksugar/dockerMops/tree/master/docker-createrepo/vsftp)前往查看
 - 部署
 ```
@@ -212,6 +215,8 @@ USER_NAME=${USER_NAME:-www}
 ```
 - 仍然有一个3.8版本的alpine专门为php使用**marksugar/alpine:3.8-time-gosu**
 ## docker-mariadb
+
+参考：https://github.com/marksugar/dockerMops/tree/master/docker-mariaDB
 - install 
 
 ```
