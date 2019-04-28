@@ -1,3 +1,10 @@
+- build
+
+https://downloads.mariadb.com/MariaDB
+```
+docker build  --build-arg versionurl="https://downloads.mariadb.com/MariaDB/mariadb-galera-5.5.63/bintar-linux-glibc_214-x86_64/mariadb-galera-5.5.63-linux-glibc_214-x86_64.tar.gz" -t marksugar/mariadb:5.5.63  .
+
+```
 # Docker-MariaDB
 
 基础镜像: debian:9.8
