@@ -8,14 +8,14 @@ services:
     logging:
       driver: "json-file"
       options:
-        max-size: "1G"    
+        max-size: "1G"
     volumes:
     - /usr/local/php/etc/php-fpm.conf:/usr/local/php/etc/php-fpm.conf
     - /usr/local/php/etc/php.ini:/usr/local/php/lib/php.ini
     - /data/logs/php-fpm:/logs
     - /data/wwwroot:/data/wwwroot
     depends_on:
-      - mariadb    
+      - mariadb
   nginx:
     image: marksugar/nginx:1.15.10
     container_name: nginx
@@ -39,17 +39,17 @@ services:
       - php-fpm
       - mariadb
   mariadb:
-    image: marksugar/mariadb:10.2.15  
+    image: marksugar/mariadb:10.2.15
     container_name: mariadb
     privileged: true
     restart: always
     network_mode: "host"
     volumes:
-      - /etc/localtime:/etc/localtime:ro      
+      - /etc/localtime:/etc/localtime:ro
       - /data/mariadb:/data/mariadb:rw
     environment:
       - MYSQL_DATABASE=jumpserver
       - MYSQL_USER=jumpserver
       - MYSQL_PASSWORD=ispasswd
     ports:
-      - "3306"	
+      - "3306"
