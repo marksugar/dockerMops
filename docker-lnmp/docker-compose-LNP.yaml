@@ -39,7 +39,7 @@ services:
       - php-fpm
       - mariadb
   mariadb:
-    image: marksugar/mariadb:10.2.15
+    image: marksugar/mariadb:10.0.38
     container_name: mariadb
     privileged: true
     restart: always
