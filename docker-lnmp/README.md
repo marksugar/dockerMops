@@ -27,6 +27,9 @@ curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-ph
 curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/nginx-1.15.10.tar.gz|tar xz -C /etc/
 ```
 
+
+一切就绪打开IP:80，你将会看到phpinfo页面
+
 如果发现“等待mariadb初始化完成”，请等候片刻即可，正常情况下你会看到phpinfo和mysql successful by LinuxEA!
 ```
 Warning: mysql_connect(): Connection refused in /data/wwwroot/index.php on line 2
