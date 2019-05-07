@@ -4,6 +4,7 @@
         echo "mysql successful by LinuxEA!";
     }else{
         echo mysql_error();
+		echo "等待mariadb初始化完成！";
     }
 
 ?>

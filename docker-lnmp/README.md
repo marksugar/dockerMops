@@ -1,5 +1,16 @@
 * install LNP
 
+
+要完成部署，你需要在本页面下载php-fpm.conf，php.ini,以及nginx配置文件，nginx配置文件将会被挂载到宿主机之上，采用network=host的网络模式
+
+在脚本中完成了下载配置文件的大部分
+
+
+- 脚本安装
+```
+curl -Lks4 https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-lnmp/create_lnp.sh |bash
+```
+
 -  [php-5.6.38]download php.conf
 ```
 mkdir /usr/local/php/etc/
@@ -10,60 +21,9 @@ curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-ph
 ```
 curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/nginx-1.15.10.tar.gz|tar xz -C /etc/
 ```
-- [nginx+php+mariadb]docker-compose
+
+如果发现“等待mariadb初始化完成”，请等候片刻即可，正常情况下你会看到phpinfo和mysql successful by LinuxEA!
 ```
-version: '2'
-services:
-  php-fpm:
-    image: marksugar/php-fpm:5.6.38
-    container_name: php-fpm
-    restart: always
-    network_mode: "host"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1G"    
-    volumes:
-    - /usr/local/php/etc/php-fpm.conf:/usr/local/php/etc/php-fpm.conf
-    - /usr/local/php/etc/php.ini:/usr/local/php/lib/php.ini
-    - /data/logs/php-fpm:/logs
-    - /data/wwwroot:/data/wwwroot
-  nginx:
-    image: marksugar/nginx:1.15.10
-    container_name: nginx
-    privileged: true
-    restart: always
-    network_mode: "host"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1G"
-    volumes_from:
-      - php-fpm
-    volumes:
-    - /etc/nginx/:/etc/nginx/
-    - /data/wwwroot:/data/wwwroot
-    - /data/logs/:/data/logs/
-    ports:
-    - "40080:40080"
-    - "80:80"
-  mariadb:
-    image: marksugar/mariadb:10.2.15  
-    container_name: mariadb
-    privileged: true
-    restart: always
-    network_mode: "host"
-    volumes:
-      - /etc/localtime:/etc/localtime:ro      
-      - /data/mariadb:/data/mariadb:rw
-    environment:
-      - MYSQL_DATABASE=jumpserver
-      - MYSQL_USER=jumpserver
-      - MYSQL_PASSWORD=ispasswd
-    ports:
-      - "3306"	
-```
-- 脚本安装
-```
-curl -Lks4 https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-lnmp/create_lnp.sh |bash
+Warning: mysql_connect(): Connection refused in /data/wwwroot/index.php on line 2
+Connection refused等待mariadb初始化完成！
 ```
