@@ -11,7 +11,7 @@ services:
         max-size: "1G"
     volumes:
     - /usr/local/php/etc/php-fpm.conf:/usr/local/php/etc/php-fpm.conf
-    - /usr/local/php/etc/php.ini:/usr/local/php/lib/php.ini
+    - /usr/local/php/etc/php.ini:/usr/local/php/etc/php.ini
     - /data/logs/php-fpm:/logs
     - /data/wwwroot:/data/wwwroot
     depends_on:
@@ -48,8 +48,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /data/mariadb:/data/mariadb:rw
     environment:
-      - MYSQL_DATABASE=jumpserver
-      - MYSQL_USER=jumpserver
-      - MYSQL_PASSWORD=ispasswd
+      - MYSQL_DATABASE=marksugar
+      - MYSQL_USER=marksugar
+      - MYSQL_PASSWORD=marksugar
     ports:
       - "3306"
