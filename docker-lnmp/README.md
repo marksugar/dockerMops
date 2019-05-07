@@ -32,3 +32,31 @@ curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-ng
 Warning: mysql_connect(): Connection refused in /data/wwwroot/index.php on line 2
 Connection refused等待mariadb初始化完成！
 ```
+
+
+- 状态页面
+
+```
+[root@LinuxEA /etc/nginx]# curl 127.0.0.1:40080/nginx_status
+Active connections: 2 
+server accepts handled requests
+ 7 7 35 
+Reading: 0 Writing: 1 Waiting: 1 
+```
+```
+[root@LinuxEA /etc/nginx]# curl 127.0.0.1:40080/php-fpm_status
+pool:                 www
+process manager:      dynamic
+start time:           07/May/2019:02:08:14 +0000
+start since:          223
+accepted conn:        30
+listen queue:         0
+max listen queue:     0
+listen queue len:     32768
+idle processes:       21
+active processes:     1
+total processes:      22
+max active processes: 1
+max children reached: 0
+slow requests:        0
+```
