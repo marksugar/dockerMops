@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  haproxy:
+    image: marksugar/haproxy:1.9.8
+    container_name: haproxy
+    #privileged: true
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/haproxy/haproxy.cfg:/etc/haproxy/haproxy.cfg
+    ports:
+      - "2379:2379"
+      - "1080:1080"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1G"
