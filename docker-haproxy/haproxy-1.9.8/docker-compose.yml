@@ -8,7 +8,7 @@ services:
     network_mode: "host"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /etc/haproxy/haproxy.cfg:/etc/haproxy/haproxy.cfg
+      - /etc/haproxy:/etc/haproxy
     ports:
       - "2379:2379"
       - "1080:1080"
