@@ -24,6 +24,7 @@ RUN set -x \
 		readline-dev \
 		tar \
 		zlib-dev \
+		py-pip \
 	\
 	&& addgroup -g ${USID} -S ${USER} \
 	&& adduser -HDu ${USID} -s /sbin/nologin -g 'haproxy server' -G ${USER} ${USER} \
@@ -44,9 +45,11 @@ RUN set -x \
 	' \
 	&& make -C /usr/src/haproxy -j "$(getconf _NPROCESSORS_ONLN)" all $makeOpts \
 	&& make -C /usr/src/haproxy install-bin $makeOpts \
+	&& make -C /usr/src/haproxy/contrib/halog halog \
 	\
 	&& mkdir -p /usr/local/etc/haproxy \
 	&& cp -R /usr/src/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors \
+	&& cp /usr/src/haproxy/contrib/halog/halog /bin/halog \
 	&& rm -rf /usr/src/haproxy \
 	&& ln -s /usr/local/haproxy/sbin/haproxy /bin/haproxy \
 	\
@@ -57,6 +60,7 @@ RUN set -x \
 			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
 	)" \
 	&& apk add --virtual .haproxy-rundeps $runDeps inotify-tools supervisor socat bash \
+	&& pip install supervisor-stdout \
 	&& apk del .build-deps \
 	&& rm -rf /var/cache/apk/* \
 	&& chmod +x /bin/entrypoint.sh

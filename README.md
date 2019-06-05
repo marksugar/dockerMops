@@ -11,6 +11,7 @@ docker-compose自用
 | mariadb   |       2      | docker-mariadb| None    | 3306 |2019      |
 | svn:1.10 | 2 | docker-svn | None | 3690 |2019
 | php-fpm:5.6.40/7.x| 2 |docker-php-fpm|www |9000|2019
+| haproxy:1.9.8| 2 |docker-haproxy|401 |2379/1080|2019
 # 目录
 
 - [docker-SoftEtherVPN](#docker-SoftEtherVPN)
@@ -22,7 +23,7 @@ docker-compose自用
 - [docker-nmp](#docker-lnmp)
 - [docker-svn](#docker-svn)
 - [docker-php-fpm](#docker-php-fpm)
-
+- [docker-haproxy](#docker-haproxy)
 ## docker-SoftEtherVPN
 
 https://github.com/marksugar/dockerMops/tree/master/docker-SoftEtherVPN
@@ -266,4 +267,9 @@ If yes, try
 如果是你可以试试安装
 ```
 curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-subversion/Optimized/svn-1.10-install.sh|bash
+```
+## docker-haproxy
+- install
+```
+curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-haproxy/haproxy-1.9.8/deploy-1.9.8.sh |bash
 ```
