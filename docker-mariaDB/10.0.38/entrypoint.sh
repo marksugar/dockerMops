@@ -41,7 +41,7 @@ EOF
 
     echo "[i] MySQL data directory not found, creating initial DBs"
     echo 'Initializing database.......'
-	chown -R ${USER_NAME}.${USER_NAME} /usr/local/mysql
+	chown ${USER_NAME}.${USER_NAME} /usr/local/mysql &&\
 	/usr/local/mysql/scripts/mysql_install_db --user=${USER_NAME} --datadir=/data/mariadb/ --basedir=/usr/local/mysql > /dev/null
 #    mysql_install_db --user=mysql --datadir=${directory}  > /dev/null
 
