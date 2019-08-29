@@ -9,6 +9,8 @@ docker build  --build-arg versionurl="https://downloads.mariadb.com/MariaDB/mari
 
 基础镜像: debian:9.8
 
+install ps `apt-get install -y procps`
+
 ```
 docker pull marksugar/mariadb:10.0.38
 docker pull marksugar/mariadb:5.5.63
