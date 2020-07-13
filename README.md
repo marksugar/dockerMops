@@ -24,6 +24,7 @@ docker-compose自用
 - [docker-svn](#docker-svn)
 - [docker-php-fpm](#docker-php-fpm)
 - [docker-haproxy](#docker-haproxy)
+- [docker-jenkins](#docker-jenkins)
 ## docker-SoftEtherVPN
 
 https://github.com/marksugar/dockerMops/tree/master/docker-SoftEtherVPN
@@ -62,13 +63,13 @@ services:
     ports:
     - "40080:40080"
     - "80:80"
-``` 
+```
 ## docker-php-fpm
 我们需要下载一个配置文件而后通过docker-compose启动
 - install 5.6.40
 ```
 curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-php/alpine-php-5.6.40/install_5.6.40.sh |bash
-```   
+```
 docker-compose大致如下：
 ```
 version: '2'
@@ -83,7 +84,7 @@ services:
     - /usr/local/php/etc/php.ini:/usr/local/php/lib/php.ini
     - /data/logs/php-fpm:/logs
     - /data/wwwroot:/data/wwwroot
-```	
+```
 - install 7.3.4
 ```
 curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-php/alpine-php-7.3.4/install-php-734.sh|bash
@@ -102,7 +103,7 @@ services:
     - /usr/local/php/etc/php.ini:/usr/local/php/lib/php.ini
     - /data/logs/php-fpm:/logs
     - /data/wwwroot:/data/wwwroot
-```	
+```
 - install php-fpm:7.3.4-gosu
 
 docker pull  marksugar/php-fpm:7.3.4-gosu
@@ -272,4 +273,30 @@ curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-su
 - install
 ```
 curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-haproxy/haproxy-1.9.8/deploy-1.9.8.sh |bash
+```
+## docker-jenkins
+在docker-jenkins目录下有dockerfile和jenkins.sh，在此目录进行构建。
+升级的时候修改jenkins官网的版本即可。添加了ansible并且修改成58080端口
+buid
+```
+docker build -t marksugar/jenkins:2.235.1-alpine-ansible-58080 .
+```
+docker-compose.yml
+```
+version: '2'
+services:
+  jenkins:
+    image: marksugar/jenkins:2.235.1-alpine-ansible-58080
+    container_name: jenkins
+    restart: always
+    network_mode: host
+    volumes:
+      - /data/2019_docker_jenkins/jenkins_home:/var/jenkins_home
+      - /data/2019_docker_jenkins/ansiblefile:/etc/ansible
+    ports:
+      - 58080:58080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1G"
 ```

@@ -1,3 +1,9 @@
+#!/bin/bash
+#########################################################################
+# File Name: jenkins.sh
+# Created Time: Mon 13 Jul 2020 04:25:25 PM CST
+#########################################################################
+
 #! /bin/bash -e
 : "${JENKINS_WAR:="/usr/share/jenkins/jenkins.war"}"
 : "${JENKINS_HOME:="/var/jenkins_home"}"

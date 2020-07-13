@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.176.1-alpine
+FROM jenkins/jenkins:2.235.1-alpine
 USER root
 COPY jenkins.sh /usr/local/bin/jenkins.sh
 RUN apk update && apk add ansible bash sshpass\
