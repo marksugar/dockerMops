@@ -281,6 +281,11 @@ buid
 ```
 docker build -t marksugar/jenkins:2.235.1-alpine-ansible-58080 .
 ```
+目录创建
+```
+mkdir /data/2019_docker_jenkins/jenkins_home
+chown -R 1000:1000 /data/2019_docker_jenkins/jenkins_home
+```
 docker-compose.yml
 ```
 version: '2'
