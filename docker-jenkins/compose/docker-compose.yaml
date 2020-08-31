@@ -1,0 +1,20 @@
+version: '2'
+services:
+  jenkins:
+    image: marksugar/jenkins:2.235.1-alpine-ansible-58080
+    container_name: jenkins
+    restart: always
+    network_mode: host
+    environment:
+     - JAVA_OPTS=-Duser.timezone=Asia/Shanghai  # 时区1
+    volumes:
+      - /etc/localtime:/etc/localtime:ro  # 时区2
+      - /data/2019_docker_jenkins/jenkins_home:/var/jenkins_home   # jenkins家目录映射
+      - /data/2019_docker_jenkins/ansiblefile:/etc/ansible          # jenkins ansible文件映射
+      - /data/2019_docker_jenkins/latest_war_package/jenkins.war:/usr/share/jenkins/jenkins.war # jenkins war新包挂载
+    ports:
+      - 58080:58080
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1G"
