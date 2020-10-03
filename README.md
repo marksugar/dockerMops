@@ -326,7 +326,7 @@ curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-ng
 download vhost
 
 ```
-curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-smokeping/smokeping.conf -o /etc/nginx/vhost/ 
+curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-smokeping/smokeping.conf -o /etc/nginx/vhost/smokeping.conf 
 ```
 
 * `htpasswd -bc /etc/nginx/passwd marksugar marksugar`
@@ -335,7 +335,7 @@ curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-s
 docker-compose
 
 ```
-curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-smokeping/docker-compose.yml -o /data/smokeping
+curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-smokeping/docker-compose.yml -o /data/smokeping/docker-compose.yml
 docker-compose -f /data/smokeping/docker-compose.yml up -d
 ```
 
