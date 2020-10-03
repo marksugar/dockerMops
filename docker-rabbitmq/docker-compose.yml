@@ -1,0 +1,15 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3.8.9-management-alpine
+    container_name: rabbitmq
+    restart: always
+    hostname: "rabbitmqA"
+    network_mode: "host"
+    environment:
+    - RABBITMQ_ERLANG_COOKIE="DSMAOMOXML"
+    - RABBITMQ_DEFAULT_USER=mark
+    - RABBITMQ_DEFAULT_PASS=E4OWYyNj11SXOA
+    - RABBITMQ_DEFAULT_VHOST="/"
+    volumes:
+    - /data/rabbitmq:/var/lib/rabbitmq
