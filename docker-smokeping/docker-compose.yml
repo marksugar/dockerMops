@@ -1,0 +1,27 @@
+version: '2'
+services:
+  nginx:
+    image: marksugar/nginx:1.18.0
+    container_name: nginx
+    restart: always
+    network_mode: "host"
+    volumes_from:
+    - smokeping
+    volumes:
+    - /etc/nginx/:/etc/nginx/
+    - /data/wwwroot:/data/wwwroot
+    - /data/logs/:/data/logs/
+    ports:
+    - "40080:40080"
+    - "8090:8090"
+    depends_on:
+      - smokeping
+  smokeping:
+    image: marksugar/smokeping:2.7.3
+    container_name: smokeping
+    network_mode: "host"
+    restart: always
+    volumes:
+    - /data/smokeping:/usr/local/smokeping
+    ports:
+    - "9007:9007"

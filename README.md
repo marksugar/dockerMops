@@ -9,9 +9,10 @@ docker-compose自用
 | alpine:3.9/3.8      |       2      | docker-alpine-gosu     | None    | None      |2019      |
 | nginx/vsftpd   |       2      | docker-nginx-createrepo| None    | 80/21 |2019      |
 | mariadb   |       2      | docker-mariadb| None    | 3306 |2019      |
-| svn:1.10 | 2 | docker-svn | None | 3690 |2019
-| php-fpm:5.6.40/7.x| 2 |docker-php-fpm|www |9000|2019
-| haproxy:1.9.8| 2 |docker-haproxy|401 |2379/1080|2019
+| svn:1.10 | 2 | docker-svn | None | 3690 |2019|
+| php-fpm:5.6.40/7.x| 2 |docker-php-fpm|www |9000|2019|
+| haproxy:1.9.8| 2 |docker-haproxy|401 |2379/1080|2019|
+| smokeping:2.7.3| 3 |docker-smokeping|400 |9007/8090|2020|
 # 目录
 
 - [docker-SoftEtherVPN](#docker-SoftEtherVPN)
@@ -25,6 +26,7 @@ docker-compose自用
 - [docker-php-fpm](#docker-php-fpm)
 - [docker-haproxy](#docker-haproxy)
 - [docker-jenkins](#docker-jenkins)
+- [docker-smokeping](#docker-smokeping)
 ## docker-SoftEtherVPN
 
 https://github.com/marksugar/dockerMops/tree/master/docker-SoftEtherVPN
@@ -278,6 +280,7 @@ curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-h
 在docker-jenkins目录下有dockerfile和jenkins.sh，在此目录进行构建。
 升级的时候修改jenkins官网的版本即可。添加了ansible并且修改成58080端口
 buid
+
 ```
 docker build -t marksugar/jenkins:2.235.1-alpine-ansible-58080 .
 ```
@@ -305,3 +308,67 @@ services:
       options:
         max-size: "1G"
 ```
+
+## docker-smokeping
+
+开始安装smokeping2.7.3
+```
+mkdir /data/
+curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-smokeping/smokeping.tar.gz | tar xz -C /data/
+```
+
+nginx:
+
+```
+curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/nginx-1.15.10.tar.gz|tar xz -C /etc/
+```
+
+download vhost
+
+```
+curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-smokeping/smokeping.conf -o /etc/nginx/vhost/ 
+```
+
+* `htpasswd -bc /etc/nginx/passwd marksugar marksugar`
+  *  yum install httpd-tools -y
+
+docker-compose
+
+```
+curl -Lks https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-smokeping/docker-compose.yml -o /data/smokeping
+docker-compose -f /data/smokeping/docker-compose.yml up -d
+```
+
+FYI:
+
+```
+version: '2'
+services:
+  nginx:
+    image: marksugar/nginx:1.18.0
+    container_name: nginx
+    restart: always
+    network_mode: "host"
+    volumes_from:
+    - smokeping
+    volumes:
+    - /etc/nginx/:/etc/nginx/
+    - /data/wwwroot:/data/wwwroot
+    - /data/logs/:/data/logs/
+    ports:
+    - "40080:40080"
+    - "8090:8090"
+    depends_on:
+      - smokeping
+  smokeping:
+    image: marksugar/smokeping:2.7.3
+    container_name: smokeping
+    network_mode: "host"
+    restart: always
+    volumes:
+    - /data/smokeping:/usr/local/smokeping
+    ports:
+    - "9007:9007"
+```
+
+![1](https://github.com/marksugar/dockerMops/raw/master/docker-smokeping/img/daseboard.PNG)
