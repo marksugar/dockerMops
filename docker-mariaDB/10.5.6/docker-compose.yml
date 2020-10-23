@@ -1,0 +1,19 @@
+version: '2'
+services:
+  mariadb:
+    image: marksugar/mariadb:10.5.6-simplify
+    container_name: mariadb
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro    
+      - /data:/data:rw
+      - /data/logs/mysql:/data/log:rw
+    ports:
+      - "3306"
+    environment:
+      - USER_ID=306
+      - USER_NAME=mysql
+      - MYSQL_DATABASE=jumpserver
+      - MYSQL_USER=jumpserver
+      - MYSQL_PASSWORD=ispasswd
