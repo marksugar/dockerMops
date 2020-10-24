@@ -7,7 +7,7 @@ services:
     network_mode: "host"
     volumes:
       - /etc/localtime:/etc/localtime:ro    
-      - /data:/data:rw
+      - /data/mariadb:/data/mariadb:rw
       - /data/logs/mysql:/data/log:rw
     ports:
       - "3306"
