@@ -3,6 +3,11 @@
 ping 115.239.211.112 -c 10 | awk '{ print $0"\t" strftime("%Y-%m-%d %H:%M:%S",systime())}' 
 
 ping 115.239.211.112 | awk '{ print $0"\t" strftime("%Y-%m-%d %H:%M:%S",systime()); fflush()}' >> outIP.info & 
+
+
+k8s 
+
+ping nacos.default.svc.cluster.local
 ```
 
 ## k8s yaml
