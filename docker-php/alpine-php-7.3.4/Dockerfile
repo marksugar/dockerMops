@@ -1,50 +1,64 @@
-FROM alpine:3.8
+# sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories alibaba 
+FROM alpine:3.13.3
 MAINTAINER mark
 ARG version="5.6.38"
+# # docker build --build-arg PHPVERSION="7.4.33" -t marksugar/php-fpm:7.4.33 .
 ENV PHPVERSION=${version}
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
-RUN apk update \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    && apk update \
 	&& apk add --no-cache --virtual .build-deps \
-		argon2-dev \
-		coreutils \
-		curl-dev \
-		libressl-dev \
-		libsodium-dev \
-		libxml2-dev \
-		libedit-dev \
-		sqlite-dev \
-		libxpm-dev \
-		libaio-dev \
-		libjpeg-turbo-dev \
-		libpng-dev \
-		libmcrypt-dev \
-		icu-dev \
-		autoconf \
-		dpkg-dev \
-		dpkg \
-		file \
-		g++ \
-		gcc \
-		libc-dev \
-		freetype-dev \
-		gettext-dev \
-		libxslt-dev \
-		zlib-dev \
-		imap-dev \
-		make \
-		m4 \
-		pkgconf \
-		re2c \
-		xz \
-		tar \
-		curl \
-		libmemcached-dev \
-		cyrus-sasl-dev \
-		libsasl \
-		linux-headers \
-		git \
-		yaml-dev \
-		libevent-dev \
+        libfreetype6-dev \
+        freetype-dev \
+        libjpeg62-turbo-dev \
+        libjpeg-turbo-dev \
+        libpq-dev \
+        postgresql-dev \
+        libpng-dev \
+        libzip-dev \
+        libwebp-dev \
+        unzip \
+        
+        argon2-dev \
+        coreutils \
+        curl-dev \
+        libressl-dev \
+        libsodium-dev \
+        libxml2-dev \
+        libedit-dev \
+        sqlite-dev \
+        libxpm-dev \
+        libaio-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libmcrypt-dev \
+        icu-dev \
+        autoconf \
+        dpkg-dev \
+        dpkg \
+        file \
+        g++ \
+        gcc \
+        libc-dev \
+        freetype-dev \
+        gettext-dev \
+        libxslt-dev \
+        zlib-dev \
+        imap-dev \
+        make \
+        m4 \
+        pkgconf \
+        re2c \
+        xz \
+        tar \
+        curl \
+        libmemcached-dev \
+        cyrus-sasl-dev \
+        libsasl \
+        linux-headers \
+        git \
+        yaml-dev \
+        libevent-dev \
 	&& apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted gnu-libiconv \
     && curl -Lk http://am1.php.net/distributions/php-${PHPVERSION}.tar.gz -o /php-${PHPVERSION}.tar.gz && cd / \
 	&& addgroup -g 400 -S www && adduser -u 400 -S -H -s /sbin/nologin -g 'PHP' -G www www \
@@ -55,6 +69,7 @@ RUN apk update \
         --with-fpm-user=www \
         --with-fpm-group=www \
         --enable-opcache \
+        --with-webp \
         --disable-fileinfo \
         --with-mysql=mysqlnd \
         --with-mysqli=mysqlnd \
@@ -72,7 +87,7 @@ RUN apk update \
         --enable-bcmath \
         --enable-shmop \
         --enable-exif \
-        --enable-sysvsem \
+        --enable-sysvsem \        
         --enable-inline-optimization \
         --with-curl \
         --enable-mbregex \
