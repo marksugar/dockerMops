@@ -1,7 +1,7 @@
 version: '2'
 services:
   nginx:
-    image: marksugar/nginx:1.15.10
+    image: registry.cn-zhangjiakou.aliyuncs.com/marksugar/nginx:1.23.4
     container_name: nginx
     restart: always
     network_mode: "host"

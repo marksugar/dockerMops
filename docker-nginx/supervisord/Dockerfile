@@ -1,10 +1,13 @@
-FROM alpine:3.9
+# sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories alibaba 
+FROM alpine:3.14.3
 MAINTAINER wwww.linuxea.com
+# docker build --build-arg version="1.23.4" -t marksugar/nginx:1.23.4 .
 ARG version="1.12.0"
 ENV version=${version}
 ENV USER=www
 RUN addgroup -g 400 -S ${USER} \
 && adduser -HDu 400 -s /sbin/nologin -g 'web server' -G ${USER} ${USER} \
+&& sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
 && apk add --no-cache curl \
 && apk add --no-cache --virtual .build-deps \
 		gcc \
@@ -46,8 +49,8 @@ RUN addgroup -g 400 -S ${USER} \
 && ln -s /usr/local/nginx/sbin/nginx /bin/nginx \
 && mkdir -p /var/tmp/nginx/{client,fastcgi,proxy,uwsgi} /etc/nginx/vhost /data/logs \
 && rm -rf /var/cache/apk/* /usr/local/nginx-${version}.tar.gz /etc/nginx/nginx.conf \
-&& curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/supervisord/supervisord.conf -o /etc/supervisord.conf \
-&& curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/nginx.conf -o /etc/nginx/nginx.conf \
+# && curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/supervisord/supervisord.conf -o /etc/supervisord.conf \
+# && curl -Lk https://raw.githubusercontent.com/marksugar/dockerMops/master/docker-nginx/nginx.conf -o /etc/nginx/nginx.conf \
 && runDev="$( \
 	scanelf --needed --nobanner /usr/local/nginx/sbin/nginx \
 		| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
@@ -57,4 +60,6 @@ RUN addgroup -g 400 -S ${USER} \
 )" \
 && apk add --no-cache --virtual .ngx-runDev ${runDev} inotify-tools supervisor \
 && apk del  .build-deps
+copy supervisord.conf /etc/supervisord.conf
+copy nginx.conf /etc/nginx/nginx.conf
 ENTRYPOINT ["supervisord","-n","-c","/etc/supervisord.conf"]

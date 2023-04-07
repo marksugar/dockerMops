@@ -1,4 +1,8 @@
-﻿## supervisord build
+﻿## latest image
+
+registry.cn-zhangjiakou.aliyuncs.com/marksugar/nginx:1.23.4
+
+## supervisord build
 
 docker build --build-arg version="1.15.10" -t marksugar/nginx:1.15.10 .
 
