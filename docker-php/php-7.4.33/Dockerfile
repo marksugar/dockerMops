@@ -70,7 +70,7 @@ RUN { \
 		echo 'ignore_repeated_errors = On'; \
 		echo 'ignore_repeated_source = Off'; \
 		echo 'html_errors = Off'; \
-} > "$PHP_INI_DIR/php.ini"
-	# } > /usr/local/etc/php/conf.d/error-logging.ini    
+# } > "$PHP_INI_DIR/php.ini"
+	} > /usr/local/etc/php/conf.d/error-logging.ini    
 EXPOSE 9000
 ENTRYPOINT ["php-fpm"]
