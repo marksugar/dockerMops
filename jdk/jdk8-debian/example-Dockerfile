@@ -1,0 +1,29 @@
+FROM registry.cn-hangzhou.aliyuncs.com/marksugar/jdk:8u202-debian-stable-20230725
+MAINTAINER by mark
+
+ENV JAVA_OPTS="\
+    -server \
+    -Xms2048m \
+    -Xmx2048m \
+    -Xmn512m \
+    -Xss256k \
+    -XX:+UseConcMarkSweepGC \
+    -XX:+UseCMSInitiatingOccupancyOnly \
+    -XX:CMSInitiatingOccupancyFraction=70 \
+    -XX:+HeapDumpOnOutOfMemoryError \
+    -XX:HeapDumpPath=/data/logs" \
+    MY_USER=linuxea \
+    MY_USER_ID=1316
+ENV TZ=Asia/Shanghai
+
+RUN groupadd -g ${MY_USER_ID}  ${MY_USER} \
+    && useradd -u ${MY_USER_ID} -g ${MY_USER_ID} -G  ${MY_USER}  ${MY_USER} -s /sbin/nologin -M \
+    && mkdir /data/logs -p
+COPY target/*.jar /data/
+#COPY skywalking-agent /
+WORKDIR /data
+USER linuxea
+
+
+#CMD java ${JAVA_OPTS} -javaagent:/skywalking-agent/skywalking-agent.jar -jar *.jar
+CMD java ${JAVA_OPTS}  -jar *.jar
