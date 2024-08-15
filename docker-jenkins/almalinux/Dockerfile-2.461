@@ -1,0 +1,8 @@
+FROM jenkins/jenkins:2.461-almalinux
+USER root
+COPY jenkins.sh /usr/local/bin/jenkins.sh
+RUN dnf install epel-release -y \
+    && dnf install ansible sshpass -y \
+    && chown jenkins.jenkins /usr/local/bin/jenkins.sh \
+    && chmod +x /usr/local/bin/jenkins.sh
+USER jenkins
