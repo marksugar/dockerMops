@@ -1,0 +1,53 @@
+version: '3'
+services:
+  mysql:
+   container_name: mysql
+   image: registry.cn-hangzhou.aliyuncs.com/marksugar/mysql:8.0.29-debian
+   restart: always
+   network_mode: "host"
+   environment:
+     - MYSQL_ROOT_PASSWORD=root
+     - MYSQL_ROOT_PASSWORD=PASSW52#O*RDABCD
+     #- MYSQL_DATABASE=typecho
+     - MYSQL_USER=qingyao
+     - MYSQL_PASSWORD=PASS@WO_!RDABCD=
+   volumes:
+   - /etc/localtime:/etc/localtime:ro
+   - /data/mysql/data:/var/lib/mysql
+   - /data/mysql/file:/var/lib/mysql-files
+   - /data/mysql/my.cnf:/etc/mysql/my.cnf
+   logging:
+     driver: "json-file"
+     options:
+       max-size: "50M"
+   deploy:
+    resources:
+      limits:
+        cpus: '2'
+        memory: 5120M
+        pids: 100000
+      reservations:
+        cpus: '0.5'
+        memory: 4096M
+  redis:
+    container_name: redis
+    image: redis:7.2.12-alpine
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /data/redis/db:/data
+      - /data/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50M"
+    deploy:
+      resources:
+        limits:
+         cpus: '1'
+         memory: 1126M
+         pids: 100000
+        reservations:
+          cpus: '0.5'
+          memory: 1024M
